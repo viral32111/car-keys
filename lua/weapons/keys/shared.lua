@@ -1,3 +1,5 @@
+-- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
+
 SWEP.Author	 = "viral32111"
 SWEP.Contact = "https://github.com/viral32111/car-keys/issues"
 SWEP.Purpose = "To lock your cars"
@@ -7,8 +9,15 @@ SWEP.Category = "Car Keys"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
 
-SWEP.ViewModel = ""
-SWEP.WorldModel = ""
+SWEP.HoldType = "normal"
+SWEP.ViewModelFOV = 70
+SWEP.ViewModelFlip = false
+SWEP.UseHands = false
+SWEP.ViewModel = "models/weapons/v_pistol.mdl"
+SWEP.WorldModel = "" -- models/weapons/w_pistol.mdl
+SWEP.ShowViewModel = false
+SWEP.ShowWorldModel = false
+SWEP.ViewModelBoneMods = {}
 
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
