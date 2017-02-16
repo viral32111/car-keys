@@ -1,14 +1,10 @@
 Car Keys
 ==========
-#### Current Version: 1.0.1
+#### Current Version: 1.0.2
 
-Allows players to lock and unlock their vehicles
+Allows players to manage their vehicles
 
-When the weapon is equipped you use:
-* Left click to lock the vehicle your looking at
-* Right click to unlock the vehicle your looking at
-
-[Workshop](http://steamcommunity.com)  
+[Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=864523561)  
 [Issues](https://github.com/viral32111/car-keys/issues)  
 
 ###### [Copyright 2017 viral32111](https://github.com/viral32111/car-keys/blob/master/LICENCE)
