@@ -1,14 +1,16 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-local addonVersion = "1.0.3"
+local addonVersion = "1.0.4"
 versionchecked = false
+validVehicles = {
+	"prop_vehicle_jeep",
+	"prop_vehicle_airboat"
+}
 
 if ( SERVER ) then
 	print("[Car Keys] Loading Car Keys...")
 	print("[Car Keys] Author: viral32111")
 	print("[Car Keys] Version: " .. addonVersion )
-
-	util.AddNetworkString("sendTextToClient")
 
 	AddCSLuaFile("autorun/client/cl_hud.lua")
 	include("autorun/client/cl_hud.lua")
@@ -45,13 +47,14 @@ hook.Add( "PlayerConnect", "CarKeysVersionChecker", function( name, ip )
 	end
 end )
 
-validVehicles = {
-	"prop_vehicle_jeep",
-	"prop_vehicle_airboat"
-}
-
 hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 	if ( table.HasValue( validVehicles, ent:GetClass() ) ) then
+		if ( timer.Exists( "pauseTimer" ) ) then
+			timer.Adjust( "pauseTimer", 0.5, 1, function() end )
+			return
+		else
+			timer.Create( "pauseTimer", 0.5, 1, function() end )
+		end
 		if ( ent:GetNWString( "vehicleOwner", "nil" ) == "nil" ) then
 			ply:ChatPrint( "You cannot pick up this car." )
 			return false
@@ -61,6 +64,17 @@ hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 			else
 				ply:ChatPrint("You cannot pick up this car, It is owned by " .. ent:GetNWString( "vehicleOwner", "nil" ) )
 			end
+		end
+	end
+end )
+
+hook.Add( "CanPlayerEnterVehicle", "CarKeysVehicleEntering", function( player, vehicle, sRole )
+	if ( SERVER and table.HasValue( validVehicles, vehicle ) ) then
+		if ( player:GetEyeTrace().Entity:GetNWBool( "vehicleLocked", false ) ) then
+			player:ChatPrint("This vehicle is locked, You cannot enter it.")
+			return false
+		else
+			return true
 		end
 	end
 end )

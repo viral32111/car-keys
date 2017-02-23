@@ -9,7 +9,8 @@ SWEP.Category = "viral32111's scripts"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
 
-SWEP.HoldType = "normal"
+SWEP.SetHoldType = "normal"
+SWEP.SetWeaponHoldType = "normal"
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
 SWEP.UseHands = false
@@ -41,11 +42,11 @@ end
 
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
-		if ( timer.Exists( "reload_stop_timer" ) ) then
-			timer.Adjust( "reload_stop_timer", 0.01, 1, function() end )
+		if ( timer.Exists( "pauseTimer" ) ) then
+			timer.Adjust( "pauseTimer", 0.5, 1, function() end )
 			return
 		else
-			timer.Create( "reload_stop_timer", 0.01, 1, function() end )
+			timer.Create( "pauseTimer", 0.5, 1, function() end )
 		end
 
 		local ply = self.Owner
@@ -57,18 +58,18 @@ function SWEP:Reload()
 			ply:EmitSound("ambient/machines/keyboard6_clicks.wav")
 		else
 			trace.Entity:SetNWString( "vehicleOwner", "nil" )
-			ply:EmitSound("ambient/energy/zap6.wav")
+			ply:EmitSound("buttons/lightswitch2.wav")
 		end
 	end
 end
 
 function SWEP:PrimaryAttack()
 	if ( SERVER and IsFirstTimePredicted() ) then
-		if ( timer.Exists( "reload_stop_timer" ) ) then
-			timer.Adjust( "reload_stop_timer", 0.01, 1, function() end )
+		if ( timer.Exists( "pauseTimer" ) ) then
+			timer.Adjust( "pauseTimer", 0.01, 1, function() end )
 			return
 		else
-			timer.Create( "reload_stop_timer", 0.01, 1, function() end )
+			timer.Create( "pauseTimer", 0.01, 1, function() end )
 		end
 
 		local ply = self.Owner
@@ -88,11 +89,11 @@ end
 
 function SWEP:SecondaryAttack()
 	if ( SERVER and IsFirstTimePredicted() ) then
-		if ( timer.Exists( "reload_stop_timer" ) ) then
-			timer.Adjust( "reload_stop_timer", 0.01, 1, function() end )
+		if ( timer.Exists( "pauseTimer" ) ) then
+			timer.Adjust( "pauseTimer", 0.01, 1, function() end )
 			return
 		else
-			timer.Create( "reload_stop_timer", 0.01, 1, function() end )
+			timer.Create( "pauseTimer", 0.01, 1, function() end )
 		end
 
 		local ply = self.Owner
@@ -109,14 +110,3 @@ function SWEP:SecondaryAttack()
 		end
 	end	
 end
-
-hook.Add( "CanPlayerEnterVehicle", "vehicleManager", function( player, vehicle, sRole )
-	if ( SERVER and table.HasValue( validVehicles, player:GetEyeTrace().Entity:GetClass() ) ) then
-		if ( player:GetEyeTrace().Entity:GetNWBool( "vehicleLocked", false ) ) then
-			player:ChatPrint("This vehicle is locked, You cannot enter it.")
-			return false
-		else
-			return true
-		end
-	end
-end )
