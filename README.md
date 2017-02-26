@@ -1,6 +1,6 @@
 Car Keys
 ==========
-#### Current Version: 1.0.5
+#### Current Version: 1.0.6
 
 This addon allows you to buy any vehicle (Press R) once you have spawned it. Once you have bought it no one else can do anything to your vehicle. It's yours!
 
