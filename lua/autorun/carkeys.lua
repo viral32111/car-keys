@@ -1,6 +1,6 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-local addonVersion = "1.0.5"
+local addonVersion = "1.0.6"
 versionchecked = false
 validVehicles = {
 	"prop_vehicle_jeep",
@@ -11,9 +11,6 @@ if ( SERVER ) then
 	print("[Car Keys] Loading Car Keys...")
 	print("[Car Keys] Author: viral32111")
 	print("[Car Keys] Version: " .. addonVersion )
-
-	AddCSLuaFile("autorun/client/cl_infohud.lua")
-	include("autorun/client/cl_infohud.lua")
 
 	print("[Car Keys] Finished loading Car Keys!")
 end

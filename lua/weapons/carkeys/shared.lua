@@ -2,9 +2,9 @@
 
 SWEP.Author	 = "viral32111"
 SWEP.Contact = "https://github.com/viral32111/car-keys/issues"
-SWEP.Purpose = "To lock your cars"
-SWEP.Instructions = "Left click locks vehicle, Right click unlocks vehicle"
-SWEP.Category = "viral32111's scripts"
+SWEP.Purpose = "To manage your vehicles"
+SWEP.Instructions = "Left click locks vehicle, Right click unlocks vehicle, R owns/unowns vehicle"
+SWEP.Category = "Car Keys"
 
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
