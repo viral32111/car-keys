@@ -9,18 +9,14 @@ SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
 
 function SWEP:DrawHUD()
-	-- if ( LocalPlayer() == nil ) then return end
-	-- if not ( LocalPlayer():Alive() or string.find( tostring( LocalPlayer():GetActiveWeapon() ), "carkeys" ) ) then return end
-	-- if ( LocalPlayer():InVehicle() ) then return end
-
 	local ply = LocalPlayer()
 	local trace = ply:GetEyeTrace().Entity
-	local owner = trace:GetNWString( "vehicleOwner", "nil" )
+	local owner = trace:GetNWString( "vehicleOwner", "N/A" )
 
-	-- if ( trace == nil ) then return end
+	if ( trace == nil ) then return end
 
-	if ( table.HasValue( validVehicles, tostring( ply:GetEyeTrace().Entity ) ) ) then
-		if ( owner != "nil" ) then
+	if ( table.HasValue( validVehicles, tostring( ply:GetEyeTrace().Entity:GetClass() ) ) ) then
+		if ( owner != "N/A" ) then
 			draw.DrawText( "Owned by " .. owner, "TargetID", ScrW()/2, ScrH()/2+15, Color(255, 255, 255), TEXT_ALIGN_CENTER)
 			if ( ply:GetEyeTrace().Entity:GetNWBool( "vehicleLocked", false ) ) then
 				draw.DrawText( "Vehicle is locked", "TargetIDSmall", ScrW()/2, ScrH()/2+35, Color(255, 255, 255), TEXT_ALIGN_CENTER)
