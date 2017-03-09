@@ -1,7 +1,7 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-local addonVersion = "1.0.7"
-local versionchecked = false
+local addonVersion = "1.0.8"
+versionchecked = false
 
 if ( SERVER ) then
 	print("[Car Keys] Loading Car Keys...")
@@ -12,7 +12,7 @@ if ( SERVER ) then
 end
 
 if ( CLIENT ) then
-	print("This server is using Car Keys, a script made by viral32111! (https://www.steamcommunity.com/id/viral32111)")
+	print("This server is running Car Keys, a script made by viral32111! (https://www.steamcommunity.com/id/viral32111)")
 end
 
 hook.Add( "PlayerConnect", "CarKeysVersionChecker", function( name, ip )
@@ -122,7 +122,7 @@ validVehicles = {
 hook.Add( "CanPlayerEnterVehicle", "CarKeysVehicleEntering", function( player, vehicle, sRole )
 	if ( SERVER and table.HasValue( validVehicles, vehicle:GetClass() ) ) then
 		if ( player:GetEyeTrace().Entity:GetNWBool( "vehicleLocked", false ) ) then
-			player:ChatPrint("This vehicle is locked, You cannot enter it.")
+			player:SendLua(' chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ')
 			return false
 		else
 			return true
