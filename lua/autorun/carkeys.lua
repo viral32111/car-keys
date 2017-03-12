@@ -1,18 +1,18 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-local addonVersion = "1.0.9"
+addonVersion = "1.0.9"
 versionchecked = false
 
 if ( SERVER ) then
 	print("[Car Keys] Loading Car Keys...")
-	print("[Car Keys] Author: viral32111")
+	print("[Car Keys] Author: viral32111 (www.github.com/viral32111)")
 	print("[Car Keys] Version: " .. addonVersion )
 
 	print("[Car Keys] Finished loading Car Keys!")
 end
 
 if ( CLIENT ) then
-	print("This server is running Car Keys, a script made by viral32111! (https://www.steamcommunity.com/id/viral32111)")
+	print("This server is running Car Keys, Created by viral32111! (https://www.steamcommunity.com/id/viral32111)")
 end
 
 hook.Add( "PlayerConnect", "CarKeysLoad", function( name, ip )
@@ -45,28 +45,17 @@ hook.Add( "PlayerConnect", "CarKeysLoad", function( name, ip )
 	end )
 end )
 
---[[ Disabled because its a bit buggy
 hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 	if ( table.HasValue( validVehicles, ent:GetClass() ) ) then
-		if ( timer.Exists( "pauseTimer" ) ) then
-			timer.Adjust( "pauseTimer", 0.5, 1, function() end )
-			return
-		else
-			timer.Create( "pauseTimer", 0.5, 1, function() end )
-		end
-		if ( ent:GetNWString( "vehicleOwner", "nil" ) == "nil" ) then
-			ply:ChatPrint( "You cannot pick up this car." )
+		if ( ent:GetNWString( "vehicleOwner", "N/A" ) == "N/A" ) then
 			return false
 		else
-			if ( ent:GetNWString( "vehicleOwner", "nil" ) == ply:Nick() ) then
+			if ( ent:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
 				return true
-			else
-				ply:ChatPrint("You cannot pick up this car, It is owned by " .. ent:GetNWString( "vehicleOwner", "nil" ) )
 			end
 		end
 	end
 end )
-]]
 
 validVehicles = {
 	"prop_vehicle_jeep",
