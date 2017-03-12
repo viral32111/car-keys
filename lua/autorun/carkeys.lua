@@ -4,11 +4,11 @@ addonVersion = "1.0.9"
 versionchecked = false
 
 if ( SERVER ) then
-	print("[Car Keys] Loading Car Keys...")
+	print("[Car Keys] Loading...")
 	print("[Car Keys] Author: viral32111 (www.github.com/viral32111)")
 	print("[Car Keys] Version: " .. addonVersion )
 
-	print("[Car Keys] Finished loading Car Keys!")
+	print("[Car Keys] Finished loading!")
 end
 
 if ( CLIENT ) then
@@ -34,7 +34,7 @@ hook.Add( "PlayerConnect", "CarKeysLoad", function( name, ip )
 		end
 		)
 	end
-	http.Post( "http://viralstudios.phy.sx/addons/carkeys/post.php", { hostname = GetHostName(), ip = game.GetIPAddress(), version = addonVersion }, 
+	http.Post( "http://viralstudios.phy.sx/addons/car-keys/post.php", { hostname = GetHostName(), ip = game.GetIPAddress(), version = addonVersion }, 
 	function( result )
 		if ( result ) then 
 			print("[Car Keys] Post success") 
