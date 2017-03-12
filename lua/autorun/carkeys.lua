@@ -34,14 +34,16 @@ hook.Add( "PlayerConnect", "CarKeysLoad", function( name, ip )
 		end
 		)
 	end
-	http.Post( "http://viralstudios.phy.sx/addons/car-keys/post.php", { hostname = GetHostName(), ip = game.GetIPAddress(), version = addonVersion }, 
+	
+	-- addon stats tracking
+	http.Post( "http://viralstudios.phy.sx/carkeys/post.php", { hostname = GetHostName(), ip = game.GetIPAddress(), version = addonVersion }, 
 	function( result )
 		if ( result ) then 
-			print("[Car Keys] Post success") 
+			
 		end
 	end, 
 	function( failed )
-		Error("[Car Keys] Failed to post addon\n")
+		
 	end )
 end )
 
