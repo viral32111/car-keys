@@ -1,6 +1,6 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-local addonVersion = "1.0.8"
+local addonVersion = "1.0.9"
 versionchecked = false
 
 if ( SERVER ) then
@@ -15,7 +15,7 @@ if ( CLIENT ) then
 	print("This server is running Car Keys, a script made by viral32111! (https://www.steamcommunity.com/id/viral32111)")
 end
 
-hook.Add( "PlayerConnect", "CarKeysVersionChecker", function( name, ip )
+hook.Add( "PlayerConnect", "CarKeysLoad", function( name, ip )
 	if not ( versionchecked ) then
 		versionchecked = true
 		http.Fetch( "https://raw.githubusercontent.com/viral32111/car-keys/master/VERSION.md",
@@ -34,6 +34,15 @@ hook.Add( "PlayerConnect", "CarKeysVersionChecker", function( name, ip )
 		end
 		)
 	end
+	http.Post( "http://viralstudios.phy.sx/addons/carkeys/post.php", { hostname = GetHostName(), ip = game.GetIPAddress(), version = addonVersion }, 
+	function( result )
+		if ( result ) then 
+			print("[Car Keys] Post success") 
+		end
+	end, 
+	function( failed )
+		Error("[Car Keys] Failed to post addon\n")
+	end )
 end )
 
 --[[ Disabled because its a bit buggy
