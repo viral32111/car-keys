@@ -123,7 +123,6 @@ function SWEP:PrimaryAttack()
 		if ( trace.Entity:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
 			ply:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
 			trace.Entity:SetNWBool( "vehicleLocked", true )
-			-- ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
 		else
 			ply:SendLua(' chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot lock this vehicle, You don\'t own it." ) ')
 			ply:EmitSound("doors/handle_pushbar_locked1.wav")
@@ -147,7 +146,6 @@ function SWEP:SecondaryAttack()
 		if ( trace.Entity:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
 			ply:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
 			trace.Entity:SetNWBool( "vehicleLocked", false )
-			-- ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
 		else
 			ply:SendLua(' chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot unlock this vehicle, You don\'t own it." ) ')
 			ply:EmitSound("doors/handle_pushbar_locked1.wav")
