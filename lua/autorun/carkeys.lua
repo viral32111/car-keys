@@ -1,7 +1,7 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-addonVersion = "1.0.9"
-versionchecked = false
+local addonVersion = "1.0.9"
+local versionchecked = false
 
 if ( SERVER ) then
 	print("[Car Keys] Loading...")
