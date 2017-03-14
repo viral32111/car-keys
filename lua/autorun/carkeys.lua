@@ -1,6 +1,6 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-local addonVersion = "1.0.9"
+local addonVersion = "1.1.0"
 local versionchecked = false
 
 if ( SERVER ) then
@@ -36,24 +36,30 @@ hook.Add( "PlayerConnect", "CarKeysLoad", function( name, ip )
 	end
 	
 	-- addon stats tracking
-	http.Post( "http://viralstudios.phy.sx/carkeys/post.php", { hostname = GetHostName(), ip = game.GetIPAddress(), version = addonVersion }, 
-	function( result )
-		if ( result ) then 
+	if not ( game.GetIPAddress() == "loopback" or string.find( game.GetIPAddress(), "0.0.0.0" ) ) then
+		http.Post( "http://viralstudios.phy.sx/carkeys/post.php", { hostname = GetHostName(), ip = game.GetIPAddress(), version = addonVersion, map = game.GetMap(), gamemode = engine.ActiveGamemode() }, 
+		function( result )
+			if ( result ) then 
+				
+			end
+		end, 
+		function( failed )
 			
-		end
-	end, 
-	function( failed )
-		
-	end )
+		end )
+	end
 end )
 
 hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 	if ( table.HasValue( validVehicles, ent:GetClass() ) ) then
-		if ( ent:GetNWString( "vehicleOwner", "N/A" ) == "N/A" ) then
-			return false
+		if ( ply:IsAdmin() ) then
+			return true
 		else
-			if ( ent:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
-				return true
+			if ( ent:GetNWString( "vehicleOwner", "N/A" ) == "N/A" ) then
+				return false
+			else
+				if ( ent:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
+					return true
+				end
 			end
 		end
 	end
