@@ -9,17 +9,8 @@ SWEP.Category = "Car Keys"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
 
-SWEP.HoldType = "slam"
-SWEP.ViewModelFOV = 70
-SWEP.ViewModelFlip = false
-SWEP.UseHands = false
 SWEP.ViewModel = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
-SWEP.ShowViewModel = true
-SWEP.ShowWorldModel = true
-SWEP.ViewModelBoneMods = {
-	["ValveBiped.Bip01"] = { scale = Vector(1, 1, 1), pos = Vector(2.407, -5.37, 0.185), angle = Angle(0, -3.333, -5.557) }
-}
 
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
