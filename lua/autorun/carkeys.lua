@@ -8,7 +8,7 @@ if ( SERVER ) then
 	print("[Car Keys] Author: viral32111 (www.github.com/viral32111)")
 	print("[Car Keys] Version: " .. addonVersion )
 
-	include("autorun/server/sv_vehiclemgr.lua")
+	include("autorun/server/sv_keys_vehiclemanager.lua")
 end
 
 if ( CLIENT ) then
