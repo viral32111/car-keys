@@ -80,7 +80,7 @@ hook.Add( "KeyPress", "CarKeysVehicleMessage", function( ply, key )
 	if ( key == IN_USE ) then
 		if ( table.HasValue( validVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) then
 			if ( ply:GetEyeTrace().Entity:GetNWBool( "vehicleLocked", false ) ) then
-				ply:SendLua(' chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ')
+				ply:SendLua(' chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ')
 			end
 		end
 	end
