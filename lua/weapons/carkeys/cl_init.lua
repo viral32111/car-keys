@@ -1,6 +1,7 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
 include("shared.lua")
+include("sh_carkeys_config.lua")
 
 SWEP.PrintName = "Car Keys"			
 SWEP.Slot = 1
@@ -16,7 +17,7 @@ function SWEP:DrawHUD()
 	if ( trace == nil ) then return end
 	if ( ply:InVehicle() ) then return end
 
-	if ( table.HasValue( validVehicles, tostring( ply:GetEyeTrace().Entity:GetClass() ) ) ) then
+	if ( table.HasValue( CarKeysVehicles, tostring( ply:GetEyeTrace().Entity:GetClass() ) ) ) then
 		if ( owner != "N/A" ) then
 			draw.DrawText( "Owned by " .. owner, "TargetID", ScrW()/2, ScrH()/2+15, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
 			if ( ply:GetEyeTrace().Entity:GetNWBool( "vehicleLocked", false ) ) then
