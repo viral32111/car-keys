@@ -1,13 +1,16 @@
-if ( CLIENT ) then return end
+-- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
 --[[-------------------------------------------------------------------------
-Vehicle Table
+Vehicle classes that Car Keys will work with. Add more if you wish!
 ---------------------------------------------------------------------------]]
-validVehicles = {
+CarKeysVehicles = {
+	-- HL2
 	"prop_vehicle_jeep",
 	"prop_vehicle_airboat",
-	"gmod_sent_vehicle_fphysics_base",
 	"prop_vehicle_prisoner_pod",
+	-- Simfphys
+	"gmod_sent_vehicle_fphysics_base",
+	-- SCars
 	"sent_sakarias_car_banshee",
 	"sent_sakarias_car_belair",
 	"sent_sakarias_car_bobcat",
@@ -62,45 +65,3 @@ validVehicles = {
 	"sent_sakarias_car_junker2",
 	"sent_sakarias_car_junker1",
 }
-
---[[-------------------------------------------------------------------------
-Vehicle Locking
----------------------------------------------------------------------------]]
-hook.Add( "PlayerUse", "CarKeysUseVehicle", function( ply, ent )
-	if ( table.HasValue( validVehicles, ent:GetClass() ) ) then
-		if ( ent:GetNWBool( "vehicleLocked", false ) ) then
-			return false
-		else
-			return true
-		end
-	end
-end )
-
-hook.Add( "KeyPress", "CarKeysVehicleMessage", function( ply, key )
-	if ( key == IN_USE ) then
-		if ( table.HasValue( validVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) then
-			if ( ply:GetEyeTrace().Entity:GetNWBool( "vehicleLocked", false ) ) then
-				ply:SendLua(' chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ')
-			end
-		end
-	end
-end )
-
---[[-------------------------------------------------------------------------
-Vehicle Pickup
----------------------------------------------------------------------------]]
-hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
-	if ( table.HasValue( validVehicles, ent:GetClass() ) ) then
-		if ( ply:IsAdmin() ) then
-			return true
-		else
-			if ( ent:GetNWString( "vehicleOwner", "N/A" ) == "N/A" ) then
-				return false
-			else
-				if ( ent:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
-					return true
-				end
-			end
-		end
-	end
-end )
