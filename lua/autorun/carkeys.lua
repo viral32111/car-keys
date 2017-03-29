@@ -1,6 +1,6 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-local CarKeysAddonVersion = "1.1.2"
+local CarKeysAddonVersion = "1.1.3"
 local CarKeysVersionChecked = false
 
 if ( SERVER ) then

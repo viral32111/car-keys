@@ -8,7 +8,7 @@ Vehicle Locking
 ---------------------------------------------------------------------------]]
 hook.Add( "PlayerUse", "CarKeysUseVehicle", function( ply, ent )
 	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then
-		if ( ent:GetNWBool( "vehicleLocked", false ) ) then
+		if ( ent:GetNWBool( "CarKeysVehicleLocked", false ) ) then
 			return false
 		else
 			return true
@@ -19,7 +19,7 @@ end )
 hook.Add( "KeyPress", "CarKeysVehicleMessage", function( ply, key )
 	if ( key == IN_USE ) then
 		if ( table.HasValue( CarKeysVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) then
-			if ( ply:GetEyeTrace().Entity:GetNWBool( "vehicleLocked", false ) ) then
+			if ( ply:GetEyeTrace().Entity:GetNWBool( "CarKeysVehicleLocked", false ) ) then
 				ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ]])
 			end
 		end
@@ -34,10 +34,10 @@ hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 		if ( ply:IsAdmin() ) then
 			return true
 		else
-			if ( ent:GetNWString( "vehicleOwner", "N/A" ) == "N/A" ) then
+			if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == "N/A" ) then
 				return false
 			else
-				if ( ent:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
+				if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
 					return true
 				end
 			end

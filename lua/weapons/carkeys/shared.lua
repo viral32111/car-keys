@@ -37,12 +37,12 @@ function SWEP:Reload()
 		local trace = ply:GetEyeTrace()
 		if not ( table.HasValue( CarKeysVehicles, trace.Entity:GetClass() ) ) then return false end
 		
-		if ( trace.Entity:GetNWString( "vehicleOwner", "N/A" ) == "N/A" ) then
-			trace.Entity:SetNWString( "vehicleOwner", ply:Nick() )
+		if ( trace.Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) == "N/A" ) then
+			trace.Entity:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
 			ply:EmitSound("ambient/machines/keyboard6_clicks.wav")
 		else
-			if ( trace.Entity:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
-				trace.Entity:SetNWString( "vehicleOwner", "N/A" )
+			if ( trace.Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
+				trace.Entity:SetNWString( "CarKeysVehicleOwner", "N/A" )
 				ply:EmitSound("buttons/lightswitch2.wav")
 			end
 		end
@@ -62,9 +62,9 @@ function SWEP:PrimaryAttack()
 		local trace = ply:GetEyeTrace()
 		if not ( table.HasValue( CarKeysVehicles, trace.Entity:GetClass() ) ) then return false end
 
-		if ( trace.Entity:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
+		if ( trace.Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
 			ply:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
-			trace.Entity:SetNWBool( "vehicleLocked", true )
+			trace.Entity:SetNWBool( "CarKeysVehicleLocked", true )
 		else
 			ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot lock this vehicle, You don\'t own it." ) ]])
 			ply:EmitSound("doors/handle_pushbar_locked1.wav")
@@ -85,9 +85,9 @@ function SWEP:SecondaryAttack()
 		local trace = ply:GetEyeTrace()
 		if not ( table.HasValue( CarKeysVehicles, trace.Entity:GetClass() ) ) then return false end
 	 
-		if ( trace.Entity:GetNWString( "vehicleOwner", "N/A" ) == ply:Nick() ) then
+		if ( trace.Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
 			ply:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
-			trace.Entity:SetNWBool( "vehicleLocked", false )
+			trace.Entity:SetNWBool( "CarKeysVehicleLocked", false )
 		else
 			ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot unlock this vehicle, You don\'t own it." ) ]])
 			ply:EmitSound("doors/handle_pushbar_locked1.wav")
