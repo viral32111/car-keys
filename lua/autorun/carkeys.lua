@@ -1,6 +1,6 @@
 -- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
 
-local CarKeysVersion = "1.1.3"
+local CarKeysVersion = "1.1.4"
 local CarKeysVersionChecked = false
 
 if ( SERVER ) then
@@ -10,6 +10,15 @@ if ( SERVER ) then
 
 	AddCSLuaFile("sh_carkeys_config.lua")
 	include("sh_carkeys_config.lua")
+
+	resource.AddSingleFile("materials/sentry/key/key.vmt")
+	resource.AddSingleFile("materials/sentry/key/key.vtf")
+	resource.AddSingleFile("models/sentry/pgkey.dx80.vtx")
+	resource.AddSingleFile("models/sentry/pgkey.dx90.vtx")
+	resource.AddSingleFile("models/sentry/pgkey.mdl")
+	resource.AddSingleFile("models/sentry/pgkey.phy")
+	resource.AddSingleFile("models/sentry/pgkey.sw.vtx")
+	resource.AddSingleFile("models/sentry/pgkey.vvd")
 end
 
 if ( CLIENT ) then
