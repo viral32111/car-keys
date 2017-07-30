@@ -1,5 +1,3 @@
--- Copyright 2017 viral32111. https://github.com/viral32111/car-keys/blob/master/LICENCE
-
 --[[-------------------------------------------------------------------------
 Vehicle classes that Car Keys will work with. Add more if you wish!
 ---------------------------------------------------------------------------]]
