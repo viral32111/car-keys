@@ -25,7 +25,7 @@ if ( CLIENT ) then
 	print("This server is running Car Keys, Created by viral32111! (www.github.com/viral32111)")
 end
 
-hook.Add( "PlayerConnect", "CarKeysVersionCheck", function( name, ip )
+hook.Add("PlayerConnect", "CarKeysVersionCheck", function( name, ip )
 	if not ( CarKeysVersionChecked ) then
 		CarKeysVersionChecked = true
 		http.Fetch( "https://raw.githubusercontent.com/viral32111/car-keys/master/VERSION.md",
