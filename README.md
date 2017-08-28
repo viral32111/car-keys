@@ -1,6 +1,6 @@
 Car Keys
 ==========
-#### Current Version: 1.1.5
+#### Current Version: 1.1.6
 
 ##### Please report any bugs or errors you find in the Issues section or on the workshop comments!
 
@@ -22,4 +22,4 @@ If you don't what to have to download this addon to install it, Check out the wo
 
 ===
 
-###### [Copyright 2017 viral32111](https://github.com/viral32111/car-keys/blob/master/LICENCE)
+###### [Copyright 2017 viral32111](https://github.com/viral32111/car-keys/blob/master/LICENCE.txt)
