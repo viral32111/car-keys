@@ -4,6 +4,7 @@ Vehicle classes that Car Keys will work with. Add more if you wish!
 CarKeysVehicles = {
 	-- HL2
 	"prop_vehicle_jeep",
+	"prop_vehicle_jeep_old",
 	"prop_vehicle_airboat",
 	"prop_vehicle_prisoner_pod",
 	-- Simfphys
@@ -61,5 +62,15 @@ CarKeysVehicles = {
 	"sent_sakarias_car_yamahayfz450",
 	"sent_sakarias_car_junker3",
 	"sent_sakarias_car_junker2",
-	"sent_sakarias_car_junker1",
+	"sent_sakarias_car_junker1"
 }
+
+CarKeysRPGamemodes = {
+	"pinescity"
+}
+
+CarKeysVehiclePrices = {}
+CarKeysVehiclePrices["prop_vehicle_jeep"] = 1000
+CarKeysVehiclePrices["prop_vehicle_jeep_old"] = 1000
+CarKeysVehiclePrices["prop_vehicle_airboat"] = 2500
+CarKeysVehiclePrices["prop_vehicle_prisoner_pod"] = 350

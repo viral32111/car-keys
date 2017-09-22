@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
 
-local CarKeysVersion = "1.1.5"
+local CarKeysVersion = "1.1.6"
 local CarKeysVersionChecked = false
 
 if ( SERVER ) then
