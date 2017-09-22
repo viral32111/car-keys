@@ -41,11 +41,20 @@ hook.Add( "KeyPress", "CarKeysVehicleMessage", function( ply, key )
 end )
 
 --[[-------------------------------------------------------------------------
+Set Vehicle Price on Spawn
+---------------------------------------------------------------------------]]
+hook.Add( "PlayerSpawnedVehicle", "CarKeysSetVehiclePrice", function( ply, vehicle )
+	if ( table.HasValue( CarKeysVehicles, vehicle:GetClass() ) ) then
+		vehicle:SetNWInt( "CarKeysVehiclePrice", CarKeysVehiclePrices[ vehicle:GetClass() ] or 0 )
+	end
+end )
+
+--[[-------------------------------------------------------------------------
 Vehicle Pickup
 ---------------------------------------------------------------------------]]
 hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then
-		if ( ply:IsAdmin() ) then
+		if ( ply:IsAdmin() or ply:IsSuperAdmin() ) then
 			return true
 		else
 			if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == "N/A" ) then
@@ -58,3 +67,38 @@ hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 		end
 	end
 end )
+
+--[[-------------------------------------------------------------------------
+Set Vehicle Price Property
+---------------------------------------------------------------------------]]
+if ( table.HasValue( CarKeysRPGamemodes, engine.ActiveGamemode() ) or string.find( engine.ActiveGamemode(), "rp" ) ) then
+	properties.Add( "setvehicleprice", {
+		MenuLabel = "Set Vehicle Price",
+		Order = 8,
+		MenuIcon = "icon16/money.png",
+
+		Filter = function( self, ent, ply ) -- A function that determines whether an entity is valid for this property
+			if not ( IsValid( ent ) ) then return end
+			if ( ent:IsPlayer() ) then return end
+			if not ( ent:IsVehicle() ) then return end
+			if not ( string.find( engine.ActiveGamemode(), "rp" ) ) then return end
+
+			return table.HasValue( CarKeysVehicles, ent:GetClass() )
+		end,
+		Action = function( self, ent ) -- The action to perform upon using the property ( Clientside )
+			self:MsgStart()
+				net.WriteEntity( ent )
+			self:MsgEnd()
+
+		end,
+		Receive = function( self, length, player ) -- The action to perform upon using the property ( Serverside )
+			local ent = net.ReadEntity()
+			if not ( self:Filter( ent, player ) ) then return end
+
+			ent:SetNWInt("CarKeysVehiclePrice", 1000 )
+			ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "The price of this vehicle has been set to $1000" ) ]])
+		end
+	})
+else
+	print("[Car Keys] Cannot add the Set Vehicle Price property because gamemode is not of a roleplay type!")
+end
