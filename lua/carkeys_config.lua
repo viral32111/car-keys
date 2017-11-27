@@ -66,11 +66,5 @@ CarKeysVehicles = {
 }
 
 CarKeysRPGamemodes = {
-	"pinescity"
+	"darkrp"
 }
-
-CarKeysVehiclePrices = {}
-CarKeysVehiclePrices["prop_vehicle_jeep"] = 1000
-CarKeysVehiclePrices["prop_vehicle_jeep_old"] = 1000
-CarKeysVehiclePrices["prop_vehicle_airboat"] = 2500
-CarKeysVehiclePrices["prop_vehicle_prisoner_pod"] = 350

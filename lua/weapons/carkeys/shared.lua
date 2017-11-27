@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
 
-include("sh_carkeys_config.lua")
+include("carkeys_config.lua")
 
 SWEP.Author = "viral32111"
-SWEP.Contact = "www.github.com/viral32111"
+SWEP.Contact = "github.com/viral32111"
 SWEP.Purpose = "Manage your vehicles"
 SWEP.Instructions = "Left click locks vehicle. Right click unlocks vehicle. R purchases vehicle"
 SWEP.Category = "viral32111's scripts"
@@ -72,29 +72,30 @@ function SWEP:Reload()
 		end
 
 		local ply = self.Owner
-		local trace = ply:GetEyeTrace()
-		local Price = trace.Entity:GetNWInt( "CarKeysVehiclePrice", 0 )
+		local ent = ply:GetEyeTrace().Entity
+		local Price = ent:GetNWInt( "CarKeysVehiclePrice", 0 )
 
-		if not ( table.HasValue( CarKeysVehicles, trace.Entity:GetClass() ) ) then return end
-		
-		if ( trace.Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) == "N/A" ) then
+		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
+		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
+
+		if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == "N/A" ) then
 			if ( table.HasValue( CarKeysRPGamemodes, engine.ActiveGamemode() ) or string.find( engine.ActiveGamemode(), "rp" ) ) then
 				if ( ply:canAfford( Price ) ) then
 					ply:addMoney( -Price )
 					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have bought this vehicle for $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice", 0 ) ) ) ]])
-					trace.Entity:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
-					ply:EmitSound("ambient/machines/keyboard6_clicks.wav")
+					ent:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
+					ent:EmitSound("ambient/machines/keyboard6_clicks.wav")
 				else
 					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot affort this vehicle! It cost $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice", 0 ) ) ) ]])
 				end
 			else
 				ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have acquired this vehicle!" ) ]])
-				trace.Entity:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
-				ply:EmitSound("ambient/machines/keyboard6_clicks.wav")
+				ent:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
+				ent:EmitSound("ambient/machines/keyboard6_clicks.wav")
 				print("[Car Keys] Cannot subtract money ($" .. Price .. ") from " .. ply:Nick() .. " for buying vehicle because gamemode is not of a roleplay type!")
 			end
 		else
-			if ( trace.Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
+			if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
 				if ( table.HasValue( CarKeysRPGamemodes, engine.ActiveGamemode() ) or string.find( engine.ActiveGamemode(), "rp" ) ) then
 					ply:addMoney( Price )
 					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have sold your vehicle for $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice", 0 ) ) ) ]])
@@ -103,11 +104,11 @@ function SWEP:Reload()
 					print("[Car Keys] Cannot add money ($" .. Price .. ") to " .. ply:Nick() .. " for selling vehicle because gamemode is not of a roleplay type!")
 				end
 
-				trace.Entity:SetNWString( "CarKeysVehicleOwner", "N/A" )
-				ply:EmitSound("buttons/lightswitch2.wav")
+				ent:SetNWString( "CarKeysVehicleOwner", "N/A" )
+				ent:EmitSound("buttons/lightswitch2.wav")
 			else
 				ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot purchase this vehicle, It is owned by " .. LocalPlayer():GetEyeTrace().Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) ) ]])
-				ply:EmitSound("doors/handle_pushbar_locked1.wav")
+				ent:EmitSound("doors/handle_pushbar_locked1.wav")
 			end
 		end
 	end
@@ -123,16 +124,20 @@ function SWEP:PrimaryAttack()
 		end
 
 		local ply = self.Owner
-		local trace = ply:GetEyeTrace()
+		local ent = ply:GetEyeTrace().Entity
 
-		if not ( table.HasValue( CarKeysVehicles, trace.Entity:GetClass() ) ) then return end
+		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
+		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
 
-		if ( trace.Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
-			ply:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
-			trace.Entity:SetNWBool( "CarKeysVehicleLocked", true )
+		if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
+			ent:EmitSound( "npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav" )
+			ent:SetNWBool( "CarKeysVehicleLocked", true )
+			timer.Simple( 1, function()
+				ent:EmitSound( "carkeys/lock.wav" )
+			end )
 		else
-			ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot lock this vehicle, You don\'t own it." ) ]])
-			ply:EmitSound("doors/handle_pushbar_locked1.wav")
+			ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot lock this vehicle, You don't own it." ) ]])
+			ent:EmitSound("doors/handle_pushbar_locked1.wav")
 		end
 		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
 		ply:SendLua([[ LocalPlayer():AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true) ]])
@@ -149,16 +154,17 @@ function SWEP:SecondaryAttack()
 		end
 
 		local ply = self.Owner
-		local trace = ply:GetEyeTrace()
+		local ent = ply:GetEyeTrace().Entity
 
-		if not ( table.HasValue( CarKeysVehicles, trace.Entity:GetClass() ) ) then return end
+		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
+		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
 	 
-		if ( trace.Entity:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
-			ply:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
-			trace.Entity:SetNWBool( "CarKeysVehicleLocked", false )
+		if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
+			ent:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
+			ent:SetNWBool( "CarKeysVehicleLocked", false )
 		else
 			ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot unlock this vehicle, You don\'t own it." ) ]])
-			ply:EmitSound("doors/handle_pushbar_locked1.wav")
+			ent:EmitSound("doors/handle_pushbar_locked1.wav")
 		end
 		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
 		ply:SendLua([[ LocalPlayer():AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true ) ]])

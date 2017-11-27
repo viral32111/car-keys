@@ -15,13 +15,13 @@ limitations under the License.
 ---------------------------------------------------------------------------]]
 
 include("shared.lua")
-include("sh_carkeys_config.lua")
+include("carkeys_config.lua")
 
 SWEP.PrintName = "Car Keys"			
 SWEP.Slot = 1
 SWEP.SlotPos = 1
 SWEP.DrawAmmo = false
-SWEP.DrawCrosshair = false
+SWEP.DrawCrosshair = true
 
 function SWEP:DrawHUD()
 	local ply = LocalPlayer()
@@ -31,6 +31,7 @@ function SWEP:DrawHUD()
 
 	if ( trace == nil ) then return end
 	if ( ply:InVehicle() ) then return end
+	if ( ply:GetPos():Distance( trace:GetPos() ) >= 150 ) then return end
 
 	if ( table.HasValue( CarKeysVehicles, trace:GetClass() ) ) then
 		if ( owner != "N/A" ) then
