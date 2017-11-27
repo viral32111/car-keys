@@ -17,7 +17,7 @@ limitations under the License.
 include("shared.lua")
 include("carkeys_config.lua")
 
-SWEP.PrintName = "Car Keys"			
+SWEP.PrintName = "Car Keys"	
 SWEP.Slot = 1
 SWEP.SlotPos = 1
 SWEP.DrawAmmo = false
