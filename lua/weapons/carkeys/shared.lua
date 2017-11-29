@@ -19,48 +19,16 @@ include("carkeys_config.lua")
 SWEP.Author = "viral32111"
 SWEP.Contact = "github.com/viral32111"
 SWEP.Purpose = "Manage your vehicles"
-SWEP.Instructions = "Left click locks vehicle. Right click unlocks vehicle. R purchases vehicle"
+SWEP.Instructions = "Left click locks vehicle. Right click unlocks vehicle. R buys/sells vehicle"
 SWEP.Category = "viral32111's scripts"
 
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
 
-SWEP.HoldType = "normal"
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
-SWEP.UseHands = false
 SWEP.ViewModel = "models/sentry/pgkey.mdl"
 SWEP.WorldModel = "models/sentry/pgkey.mdl"
-SWEP.ShowViewModel = true
-SWEP.ShowWorldModel = true
-
-SWEP.ViewModelBoneMods = {
-	["Box001"] = { scale = Vector(1.215, 1.215, 1.215), pos = Vector(16.364, -9.473, -9.41), angle = Angle(-24.66, -112.496, -33.352) }
-}
-
---if ( CLIENT ) then
-SWEP.v_bonemods = {
-	["Box001"] = { scale = Vector(1.215, 1.215, 1.215), pos = Vector(16.364, -9.473, -9.41), angle = Angle(-24.66, -112.496, -33.352) }
-}
---end
-
-SWEP.WElements = {
-	["carkey_worldmodel"] = { type = "Model", model = "models/sentry/pgkey.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(2.878, 1.86, -5.7), angle = Angle(0, 24.231, 0), size = Vector(1.08, 1.08, 1.08), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
-}
-
-SWEP.w_bonemods = {
-	["carkeys_world"] = { type = "Model", model = "models/sentry/pgkey.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(3.763, 0.037, -6.15), angle = Angle(1.61, -3.158, 9.465), size = Vector(1.08, 1.08, 1.08), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
-}
-
-SWEP.Primary.ClipSize = -1
-SWEP.Primary.DefaultClip = -1
-SWEP.Primary.Automatic = false
-SWEP.Primary.Ammo = "none"
-
-SWEP.Secondary.ClipSize = -1
-SWEP.Secondary.DefaultClip = -1
-SWEP.Secondary.Automatic = false
-SWEP.Secondary.Ammo = "none"
 
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
@@ -171,32 +139,16 @@ function SWEP:SecondaryAttack()
 	end	
 end
 
---[[if ( CLIENT ) then
-   function SWEP:CalcViewModelView( ent, oldPos, oldAng, pos, ang )
-	-- pos = pos + ang:Right() * 7 + ang:Forward() * 17 + ang:Up() * -4.5
-	pos = Vector(16.364, -9.473, -9.41)
-	
-	ang:RotateAroundAxis( ang:Up(), 170 )
-	ang:RotateAroundAxis( ang:Right(), -70 )
-	
-	ent:SetPos( pos )
-	ent:SetAngles( ang )
-   end
-end]]
+function SWEP:GetViewModelPosition( position, angle )
+	local owner = self.Owner
 
---[[function SWEP:GetViewModelPosition( pos, ang )
-	pos = pos + 1*ang:Up() - ang:Forward() - 1*ang:Right()
-	//pos = pos - Vector( -3, 3, 1 )
-	// ang = ang + Angle( 180, 0, 0 )
-	return pos, ang
-end]]
+	if ( IsValid( owner ) ) then
+		position = position + owner:GetRight()*11 + owner:GetAimVector()*21
+	end
 
---[[SWEP.WElements = {
-	["carkey_worldmodel"] = { type = "Model", model = "models/sentry/pgkey.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(2.878, 1.86, -5.7), angle = Angle(0, 24.231, 0), size = Vector(1.08, 1.08, 1.08), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
-}
+	angle:RotateAroundAxis( angle:Up(), 210 )
+	angle:RotateAroundAxis( angle:Right(), 220 )
+	angle:RotateAroundAxis( angle:Forward(), 10 )
 
---if ( CLIENT ) then
-	SWEP.v_bonemods = {
-		["Box001"] = { scale = Vector(1.215, 1.215, 1.215), pos = Vector(16.364, -9.473, -9.41), angle = Angle(-24.66, -112.496, -33.352) }
-	}
---end]]
+	return position, angle
+end

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
 
-local Version = "1.1.8"
+local Version = "1.1.9"
 
 if ( SERVER ) then
 	print("[Car Keys] Loaded Version: " .. Version )
