@@ -110,7 +110,7 @@ function SWEP:PrimaryAttack()
 		if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
 			ent:EmitSound( "npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav" )
 			ent:SetNWBool( "CarKeysVehicleLocked", true )
-			timer.Simple( 1, function()
+			timer.Simple( 0.5, function()
 				ent:EmitSound( "carkeys/lock.wav" )
 			end )
 		else
