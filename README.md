@@ -1,6 +1,6 @@
 Car Keys
 ==========
-#### Current Version: 1.1.8
+#### Current Version: 1.1.9
 
 ##### Please report any bugs or errors you find in the Issues section or on the workshop comments!
 
