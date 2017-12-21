@@ -44,8 +44,9 @@ end )
 Set Vehicle Price on Spawn
 ---------------------------------------------------------------------------]]
 hook.Add( "PlayerSpawnedVehicle", "CarKeysSetVehiclePrice", function( ply, vehicle )
-	if ( table.HasValue( CarKeysRPGamemodes, engine.ActiveGamemode() ) or string.find( engine.ActiveGamemode(), "rp" ) ) then
-		if ( table.HasValue( CarKeysVehicles, vehicle:GetClass() ) ) then
+	if ( table.HasValue( CarKeysVehicles, vehicle:GetClass() ) ) then
+		vehicle:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
+		if ( table.HasValue( CarKeysRPGamemodes, engine.ActiveGamemode() ) or string.find( engine.ActiveGamemode(), "rp" ) ) then
 			if ( file.Exists( "carkeys/" .. vehicle:GetClass() .. ".txt", "DATA" ) ) then
 				local price = tonumber( file.Read( "carkeys/" .. vehicle:GetClass() .. ".txt", "DATA" ) )
 				vehicle:SetNWInt( "CarKeysVehiclePrice", price )

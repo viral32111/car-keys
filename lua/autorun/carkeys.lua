@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
 
-local Version = "1.1.9"
+local Version = "1.2.0"
 
 if ( SERVER ) then
 	print("[Car Keys] Loaded Version: " .. Version )
@@ -24,16 +24,16 @@ if ( SERVER ) then
 	AddCSLuaFile("carkeys_config.lua")
 	include("carkeys_config.lua")
 
-	resource.AddSingleFile("materials/sentry/key/key.vmt")
-	resource.AddSingleFile("materials/sentry/key/key.vtf")
-	resource.AddSingleFile("models/sentry/pgkey.dx80.vtx")
-	resource.AddSingleFile("models/sentry/pgkey.dx90.vtx")
-	resource.AddSingleFile("models/sentry/pgkey.mdl")
-	resource.AddSingleFile("models/sentry/pgkey.phy")
-	resource.AddSingleFile("models/sentry/pgkey.sw.vtx")
-	resource.AddSingleFile("models/sentry/pgkey.vvd")
+	resource.AddFile("materials/sentry/key/key.vmt")
+	resource.AddFile("materials/sentry/key/key.vtf")
+	resource.AddFile("models/sentry/pgkey.dx80.vtx")
+	resource.AddFile("models/sentry/pgkey.dx90.vtx")
+	resource.AddFile("models/sentry/pgkey.mdl")
+	resource.AddFile("models/sentry/pgkey.phy")
+	resource.AddFile("models/sentry/pgkey.sw.vtx")
+	resource.AddFile("models/sentry/pgkey.vvd")
 
-	resource.AddSingleFile("sound/carkeys/lock.wav")
+	resource.AddFile("sound/carkeys/lock.wav")
 
 	if not ( file.Exists( "carkeys", "DATA" ) ) then
 		file.CreateDir( "carkeys" )
