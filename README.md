@@ -8,8 +8,6 @@ In short this addon protects others from getting in or picking up your car.
 
 You can find the SWEP under "viral32111's scripts" in the Weapons tab of the Spawn menu.
 
-There is alot more to this addon than what is in the screenshots, but these things can't have screenshots as most of it is just back-end code.
-
 If you own the vehicle you have the ability to lock it, unlock it, drive it and pick it up with your physgun.
 
 If your in a server using this addon and you have bought a car and your game crashes or you leave, the vehicle will still be yours when you join again (As long as the server doesn't have some sort of prop removal on disconnect or it restarts)
