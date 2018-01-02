@@ -37,8 +37,8 @@ SWEP.Secondary.Ammo = "none"
 
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
-SWEP.ViewModel = "models/sentry/pgkey.mdl"
-SWEP.WorldModel = "models/sentry/pgkey.mdl"
+SWEP.ViewModel = "models/weapons/v_crowbar.mdl"
+SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
 
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
@@ -149,7 +149,7 @@ function SWEP:SecondaryAttack()
 	end 
 end
 
-function SWEP:GetViewModelPosition( position, angle )
+--[[function SWEP:GetViewModelPosition( position, angle )
 	local owner = self.Owner
 
 	if ( IsValid( owner ) ) then
@@ -161,4 +161,4 @@ function SWEP:GetViewModelPosition( position, angle )
 	angle:RotateAroundAxis( angle:Forward(), 10 )
 
 	return position, angle
-end
+end]]
