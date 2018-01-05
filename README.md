@@ -28,4 +28,4 @@ Commands:
 
 If you don't what to have to download this addon to install it, Check out the workshop version [here](https://steamcommunity.com/sharedfiles/filedetails/?id=864523561)
 
-###### [Copyright 2017 viral32111](https://github.com/viral32111/car-keys/blob/master/LICENCE.txt)
+###### [Copyright 2018 viral32111](https://github.com/viral32111/car-keys/blob/master/LICENCE.txt)
