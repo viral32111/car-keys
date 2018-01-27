@@ -22,7 +22,7 @@ Controls:
 * Buy/Sell: R
 
 Commands:
-• !setprice <amount> (Use while looking at the vehicle, only works on RP gamemodes)
+* !setprice <amount> (Use while looking at the vehicle, only works on RP gamemodes)
 
 [Donate to me!](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9UV858ZJN7QWW)
 
