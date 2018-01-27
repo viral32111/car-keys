@@ -18,7 +18,9 @@ This addon should work with almost every car on the workshop. I know that it wor
 
 Controls:
 • Lock: Left Click
+
 • Unlock: Right Click
+
 • Buy/Sell: R
 
 Commands:
