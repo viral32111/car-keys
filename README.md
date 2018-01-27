@@ -17,11 +17,9 @@ Admins on the server have the ablity to pickup anyones car.
 This addon should work with almost every car on the workshop. I know that it works with: TDMCars, SligWolf's Vehicles, LW Cars, SCars, Simfphys Lua Vehicles and the Half Life 2 Vehicles. If it does not work with a vehicle contact me and i'll try to make it work with it.
 
 Controls:
-• Lock: Left Click
-
-• Unlock: Right Click
-
-• Buy/Sell: R
+[*] Lock: Left Click
+[*] Unlock: Right Click
+[*] Buy/Sell: R
 
 Commands:
 • !setprice <amount> (Use while looking at the vehicle, only works on RP gamemodes)
