@@ -37,8 +37,8 @@ SWEP.Secondary.Ammo = "none"
 
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
-SWEP.ViewModel = "models/weapons/v_crowbar.mdl"
-SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
+SWEP.ViewModel = "" -- models/weapons/v_crowbar.mdl
+SWEP.WorldModel = "" -- models/weapons/w_crowbar.mdl
 
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
