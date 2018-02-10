@@ -24,7 +24,7 @@ Controls:
 Commands:
 * !setprice <amount> (Use while looking at the vehicle, only works on RP gamemodes)
 
-[Donate to me!](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9UV858ZJN7QWW)
+[Donate to me!](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T6262Q4KA29RC)
 
 If you don't what to have to download this addon to install it, Check out the workshop version [here](https://steamcommunity.com/sharedfiles/filedetails/?id=864523561)
 
