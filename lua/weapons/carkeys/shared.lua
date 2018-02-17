@@ -17,10 +17,10 @@ limitations under the License.
 include("carkeys_config.lua")
 
 SWEP.Author = "viral32111"
-SWEP.Contact = "github.com/viral32111"
+SWEP.Contact = "contact@viral32111.com"
 SWEP.Purpose = "Manage your vehicles"
 SWEP.Instructions = "Left click locks vehicle. Right click unlocks vehicle. R buys/sells vehicle"
-SWEP.Category = "viral32111's scripts"
+SWEP.Category = "Car Keys"
 
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
@@ -37,8 +37,8 @@ SWEP.Secondary.Ammo = "none"
 
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
-SWEP.ViewModel = "" -- models/weapons/v_crowbar.mdl
-SWEP.WorldModel = "" -- models/weapons/w_crowbar.mdl
+SWEP.ViewModel = "models/sentry/pgkey.mdl"
+SWEP.WorldModel = "models/sentry/pgkey.mdl"
 
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
@@ -149,7 +149,7 @@ function SWEP:SecondaryAttack()
 	end 
 end
 
---[[function SWEP:GetViewModelPosition( position, angle )
+function SWEP:GetViewModelPosition( position, angle )
 	local owner = self.Owner
 
 	if ( IsValid( owner ) ) then
@@ -161,4 +161,4 @@ end
 	angle:RotateAroundAxis( angle:Forward(), 10 )
 
 	return position, angle
-end]]
+end

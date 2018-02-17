@@ -15,17 +15,10 @@ limitations under the License.
 ---------------------------------------------------------------------------]]
 
 CarKeys = {}
-function CarKeys:Version()
-	return 122
-end
-function CarKeys:Name()
-	return "Car Keys"
-end
-
--- include("autorun/server/sv_carkeys.lua")
+CarKeys.Version = 122
+CarKeys.Name = "Car Keys"
 
 AddCSLuaFile("carkeys_config.lua")
--- include("carkeys_config.lua")
 
 resource.AddFile("materials/sentry/key/key.vmt")
 resource.AddSingleFile("materials/sentry/key/key.vtf")
@@ -43,33 +36,23 @@ if ( SERVER ) then
 	end
 end
 
-if ( CLIENT ) then
-	print("Thanks for using Car Keys, Created by viral32111!")
-end
-
-hook.Add("Initialize", CarKeys:Name() .. "VersionCheck", function()
-	print("starting timer")
-	timer.Simple( 2, function()
-		print("timer ran")
-		http.Fetch("https://raw.githubusercontent.com/viral32111/car-keys/master/README.md", function( LatestVersion )
-			local LatestVersion = string.sub( LatestVersion, 1, string.len( CarKeys:Name() )+19 )
-			print( LatestVersion )
-			--[[local LatestVersion = tonumber( string.gsub( LatestVersion, "\n", "" ) )
-			if ( LatestVersion == CarKeys:Version() ) then
-				print("[" .. CarKeys:Name() .. "] You are running the latest version!")
-			elseif ( LatestVersion > CarKeys:Version() ) then
-				print("[" .. CarKeys:Name() .. "] You are running an outdated version! (Latest: " .. LatestVersion .. ", Current: " .. CarKeys:Version() .. ")")
-			elseif ( LatestVersion < CarKeys:Version() ) then
-				print("[" .. CarKeys:Name() .. "] You are running a future version, Please reinstall the addon. (Latest: " .. LatestVersion .. ", Current: " .. CarKeys:Version() .. ")")
-			else
-				print("[" .. CarKeys:Name() .. "] Failed to parse addon version! (Latest: " .. LatestVersion .. ", Current: " .. CarKeys:Version() .. ")")
-			end]]
-		end, function( error )
-			print("[" .. CarKeys:Name() .. "] Failed to get addon version! (" .. error .. ")")
-		end )
-
-		hook.Remove("Initialize", CarKeys:Name() .. "VersionCheck")
+hook.Add("PlayerConnect", CarKeys.Name .. "VersionCheck", function()
+	http.Fetch("https://raw.githubusercontent.com/viral32111/car-keys/master/README.md", function( LatestVersion )
+		local LatestVersion = tonumber( string.sub( LatestVersion, string.len( CarKeys.Name )+19, string.len( CarKeys.Name )+21 ) )
+		if ( LatestVersion == CarKeys.Version ) then
+			print("[" .. CarKeys.Name .. "] You are running the latest version!")
+		elseif ( LatestVersion > CarKeys.Version ) then
+			print("[" .. CarKeys.Name .. "] You are running an outdated version! (Latest: " .. LatestVersion .. ", Current: " .. CarKeys.Version .. ")")
+		elseif ( LatestVersion < CarKeys.Version ) then
+			print("[" .. CarKeys.Name .. "] You are running a future version, Please reinstall the addon. (Latest: " .. LatestVersion .. ", Current: " .. CarKeys.Version .. ")")
+		else
+			print("[" .. CarKeys.Name .. "] Failed to parse addon version! (Latest: " .. LatestVersion .. ", Current: " .. CarKeys.Version .. ")")
+		end
+	end, function( error )
+		print("[" .. CarKeys.Name .. "] Failed to get addon version! (" .. error .. ")")
 	end )
+
+	hook.Remove("Initialize", CarKeys.Name .. "VersionCheck")
 end )
 
-print("[Car Keys] Loaded Version: " .. CarKeys:Version())
+print("[Car Keys] Loaded Version: " .. CarKeys.Version)
