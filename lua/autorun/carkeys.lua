@@ -14,29 +14,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
 
-local Version = "1.2.1"
+CarKeys = {}
+function CarKeys:Version()
+	return 122
+end
+function CarKeys:Name()
+	return "Car Keys"
+end
+
+-- include("autorun/server/sv_carkeys.lua")
+
+AddCSLuaFile("carkeys_config.lua")
+-- include("carkeys_config.lua")
+
+resource.AddFile("materials/sentry/key/key.vmt")
+resource.AddSingleFile("materials/sentry/key/key.vtf")
+resource.AddSingleFile("models/sentry/pgkey.mdl")
+resource.AddSingleFile("models/sentry/pgkey.phy")
+resource.AddSingleFile("models/sentry/pgkey.vvd")
+resource.AddSingleFile("models/sentry/pgkey.sw.vtx")
+resource.AddSingleFile("models/sentry/pgkey.dx80.vtx")
+resource.AddSingleFile("models/sentry/pgkey.dx90.vtx")
+resource.AddSingleFile("sound/carkeys/lock.wav")
 
 if ( SERVER ) then
-	print("[Car Keys] Loaded Version: " .. Version )
-
-	include("autorun/server/sv_carkeys.lua")
-
-	AddCSLuaFile("carkeys_config.lua")
-	include("carkeys_config.lua")
-
-	resource.AddFile("materials/sentry/key/key.vmt")
-	resource.AddFile("materials/sentry/key/key.vtf")
-	resource.AddFile("models/sentry/pgkey.dx80.vtx")
-	resource.AddFile("models/sentry/pgkey.dx90.vtx")
-	resource.AddFile("models/sentry/pgkey.mdl")
-	resource.AddFile("models/sentry/pgkey.phy")
-	resource.AddFile("models/sentry/pgkey.sw.vtx")
-	resource.AddFile("models/sentry/pgkey.vvd")
-
-	resource.AddFile("sound/carkeys/lock.wav")
-
-	if not ( file.Exists( "carkeys", "DATA" ) ) then
-		file.CreateDir( "carkeys" )
+	if not ( file.Exists("carkeys", "DATA") ) then
+		file.CreateDir("carkeys")
 	end
 end
 
@@ -44,20 +47,29 @@ if ( CLIENT ) then
 	print("Thanks for using Car Keys, Created by viral32111!")
 end
 
-hook.Add( "PlayerConnect", "CarKeysVersionCheck", function()
-	http.Fetch( "https://raw.githubusercontent.com/viral32111/car-keys/master/VERSION.txt", function( body, len, headers, code )
-		local body = string.gsub( body, "\n", "" )
-		if ( body == Version ) then
-			print( "[Car Keys] You are running the most recent version of Car Keys!" )
-		elseif ( body == "404: Not Found" ) then
-			print( "[Car Keys] Version page does not exist")
-		else
-			print( "[Car Keys] You are using outdated version of Car Keys! (Latest: " .. body .. ", Current: " .. Version .. ")" )
-		end
-	end,
-	function( error )
-		print( "[Car Keys] Failed to get addon version! (" .. error .. ")" )
-	end )
+hook.Add("Initialize", CarKeys:Name() .. "VersionCheck", function()
+	print("starting timer")
+	timer.Simple( 2, function()
+		print("timer ran")
+		http.Fetch("https://raw.githubusercontent.com/viral32111/car-keys/master/README.md", function( LatestVersion )
+			local LatestVersion = string.sub( LatestVersion, 1, string.len( CarKeys:Name() )+19 )
+			print( LatestVersion )
+			--[[local LatestVersion = tonumber( string.gsub( LatestVersion, "\n", "" ) )
+			if ( LatestVersion == CarKeys:Version() ) then
+				print("[" .. CarKeys:Name() .. "] You are running the latest version!")
+			elseif ( LatestVersion > CarKeys:Version() ) then
+				print("[" .. CarKeys:Name() .. "] You are running an outdated version! (Latest: " .. LatestVersion .. ", Current: " .. CarKeys:Version() .. ")")
+			elseif ( LatestVersion < CarKeys:Version() ) then
+				print("[" .. CarKeys:Name() .. "] You are running a future version, Please reinstall the addon. (Latest: " .. LatestVersion .. ", Current: " .. CarKeys:Version() .. ")")
+			else
+				print("[" .. CarKeys:Name() .. "] Failed to parse addon version! (Latest: " .. LatestVersion .. ", Current: " .. CarKeys:Version() .. ")")
+			end]]
+		end, function( error )
+			print("[" .. CarKeys:Name() .. "] Failed to get addon version! (" .. error .. ")")
+		end )
 
-	hook.Remove( "PlayerConnect", "CarKeysVersionCheck" )
+		hook.Remove("Initialize", CarKeys:Name() .. "VersionCheck")
+	end )
 end )
+
+print("[Car Keys] Loaded Version: " .. CarKeys:Version())

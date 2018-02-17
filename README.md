@@ -1,31 +1,31 @@
-Car Keys
-==========
-#### Current Version: 1.2.1
-
-##### Please report any bugs or errors you find in the Issues section or on the workshop comments!
+# Car Keys
+#### Revision: 122
 
 In short this addon protects others from getting in or picking up your car.
 
-You can find the SWEP under "viral32111's scripts" in the Weapons tab of the Spawn menu.
+You can find the SWEP under 'Car Keys' in the 'Weapons' tab of the Spawn menu.
 
-If you own the vehicle you have the ability to lock it, unlock it, drive it and pick it up with your physgun.
+If you own the vehicle you have the ability to lock it (Left Click), unlock it (Right Click), drive it and pick it up with your physgun.
+
+Supports any roleplay gamemode that includes 'rp' in the name.
+
+For RP gamemodes you can buy and sell the car (R) prices can be configured by typing '!setprice' in chat followed by an amount while looking at the vehicle. This value will save over server restart.
 
 If your in a server using this addon and you have bought a car and your game crashes or you leave, the vehicle will still be yours when you join again (As long as the server doesn't have some sort of prop removal on disconnect or it restarts)
 
 Admins on the server have the ablity to pickup anyones car.
 
-This addon should work with almost every car on the workshop. I know that it works with: TDMCars, SligWolf's Vehicles, LW Cars, SCars, Simfphys Lua Vehicles and the Half Life 2 Vehicles. If it does not work with a vehicle contact me and i'll try to make it work with it.
+Supported Vehicles (Includes anything using 'prop_vehicle_jeep', 'prop_vehicle_jeep_old', 'prop_vehicle_airboat', 'prop_vehicle_prisoner_pod' as a base):
+ - Half Life 2 Vehicles/Seats
+ - TDMCars
+ - SligWolf's Vehicles
+ - LW Cars
+ - SCars
+ - Simfphys Lua Vehicles
 
-Controls:
-* Lock: Left Click
-* Unlock: Right Click
-* Buy/Sell: R
+If it does not work with a vehicle contact me and i'll try to make it work with it.
 
-Commands:
-* !setprice <amount> (Use while looking at the vehicle, only works on RP gamemodes)
+[Donate](https://viral32111.com/donate)
+[Workshop Version](https://steamcommunity.com/sharedfiles/filedetails/?id=864523561)
 
-[Donate to me!](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T6262Q4KA29RC)
-
-If you don't what to have to download this addon to install it, Check out the workshop version [here](https://steamcommunity.com/sharedfiles/filedetails/?id=864523561)
-
-###### [Copyright 2017-2018 viral32111](https://github.com/viral32111/car-keys/blob/master/LICENCE.txt)
+###### [Copyright 2017-2018 viral32111](LICENCE.txt)
