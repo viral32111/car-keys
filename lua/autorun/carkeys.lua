@@ -38,7 +38,7 @@ end
 
 hook.Add("PlayerConnect", CarKeys.Name .. "VersionCheck", function()
 	http.Fetch("https://raw.githubusercontent.com/viral32111/car-keys/master/README.md", function( LatestVersion )
-		local LatestVersion = tonumber( string.sub( LatestVersion, string.len( CarKeys.Name )+19, string.len( CarKeys.Name )+21 ) )
+		local LatestVersion = tonumber( string.sub( LatestVersion, string.len( CarKeys.Name )+18, string.len( CarKeys.Name )+21 ) )
 		if ( LatestVersion == CarKeys.Version ) then
 			print("[" .. CarKeys.Name .. "] You are running the latest version!")
 		elseif ( LatestVersion > CarKeys.Version ) then
