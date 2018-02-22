@@ -23,7 +23,7 @@ Supported Vehicles (Includes anything using 'prop_vehicle_jeep', 'prop_vehicle_j
  - SCars
  - Simfphys Lua Vehicles
 
-For developers, This includes 2 global variables: CarKeys.Version (Returns the version number, interger) and CarKeys.Name (Returns the display name of the addon, string)
+For developers, This includes 2 global variables: `CarKeys.Version` (Returns the version number, interger) and `CarKeys.Name` (Returns the display name of the addon, string)
 
 If it does not work with a vehicle contact me and i'll try to make it work with it.
 
