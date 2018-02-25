@@ -20,7 +20,7 @@ CarKeys.Name = "Car Keys"
 
 AddCSLuaFile("carkeys_config.lua")
 
-resource.AddFile("materials/sentry/key/key.vmt")
+resource.AddSingleFile("materials/sentry/key/key.vmt")
 resource.AddSingleFile("materials/sentry/key/key.vtf")
 resource.AddSingleFile("models/sentry/pgkey.mdl")
 resource.AddSingleFile("models/sentry/pgkey.phy")
@@ -52,7 +52,7 @@ hook.Add("PlayerConnect", CarKeys.Name .. "VersionCheck", function()
 		print("[" .. CarKeys.Name .. "] Failed to get addon version! (" .. error .. ")")
 	end )
 
-	hook.Remove("Initialize", CarKeys.Name .. "VersionCheck")
+	hook.Remove("PlayerConnect", CarKeys.Name .. "VersionCheck")
 end )
 
-print("[Car Keys] Loaded Version: " .. CarKeys.Version)
+print("[" .. CarKeys.Name .. "] Loaded Version: " .. CarKeys.Version)
