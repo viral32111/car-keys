@@ -37,8 +37,8 @@ SWEP.Secondary.Ammo = "none"
 
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
-SWEP.ViewModel = "models/sentry/pgkey.mdl"
-SWEP.WorldModel = "models/sentry/pgkey.mdl"
+SWEP.ViewModel = "models/viral/pgkey.mdl"
+SWEP.WorldModel = "models/viral/pgkey.mdl"
 
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
