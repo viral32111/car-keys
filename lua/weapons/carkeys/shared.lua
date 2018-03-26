@@ -38,7 +38,7 @@ SWEP.Secondary.Ammo = "none"
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
 SWEP.ViewModel = "models/sentry/pgkey.mdl"
-SWEP.WorldModel = "models/sentry/pgkey.mdl"
+SWEP.WorldModel = "" -- models/sentry/pgkey.mdl
 
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
@@ -54,7 +54,7 @@ function SWEP:Reload()
 		local Price = ent:GetNWInt( "CarKeysVehiclePrice", 0 )
 
 		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
-		if ( trace:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
+		if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
 
 		if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == "N/A" ) then
