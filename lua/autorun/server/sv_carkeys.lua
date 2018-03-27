@@ -33,11 +33,13 @@ hook.Add( "PlayerUse", "CarKeysUseVehicle", function( ply, ent )
 end )
 
 hook.Add( "KeyPress", "CarKeysVehicleMessage", function( ply, key )
-	if ( ply:GetEyeTrace().Entity:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
-
-	if ( key == IN_USE ) and ( table.HasValue( CarKeysVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) and ( ply:GetEyeTrace().Entity:GetNWBool( "CarKeysVehicleLocked", false ) ) then
-		ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ]])
-		ply:EmitSound("doors/handle_pushbar_locked1.wav")
+	if ( key == IN_USE ) then	
+		if ( ply:GetEyeTrace().Entity:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
+		
+		if ( table.HasValue( CarKeysVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) and ( ply:GetEyeTrace().Entity:GetNWBool( "CarKeysVehicleLocked", false ) ) then
+			ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ]])
+			ply:EmitSound("doors/handle_pushbar_locked1.wav")
+		end
 	end
 end )
 
