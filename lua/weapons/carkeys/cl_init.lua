@@ -29,7 +29,7 @@ function SWEP:DrawHUD()
 	local owner = trace:GetNWString( "CarKeysVehicleOwner", "N/A" )
 	local Price = tostring( trace:GetNWInt( "CarKeysVehiclePrice", 0 ) )
 
-	if ( trace == nil ) then return end
+	if ( trace ~= nil ) then return end
 	if ( ply:InVehicle() ) then return end
 	if ( ply:GetPos():Distance( trace:GetPos() ) >= 150 ) then return end
 
