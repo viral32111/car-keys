@@ -24,7 +24,7 @@ hook.Add( "PlayerUse", "CarKeysUseVehicle", function( ply, ent )
 	if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
 	
 	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then
-		if ( ply:GetPos():Distance( trace:GetPos() ) >= 150 ) then return false end
+		if ( ply:GetPos():Distance( ply:GetEyeTrace().Entity:GetPos() ) >= 150 ) then return false end
 
 		if ( ent:GetNWBool( "CarKeysVehicleLocked", false ) ) then
 			return false
@@ -37,7 +37,7 @@ end )
 hook.Add( "KeyPress", "CarKeysVehicleMessage", function( ply, key )
 	if ( key == IN_USE ) then	
 		if ( ply:GetEyeTrace().Entity:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
-		if ( ply:GetPos():Distance( trace:GetPos() ) >= 150 ) then return false end
+		if ( ply:GetPos():Distance( ply:GetEyeTrace().Entity:GetPos() ) >= 150 ) then return false end
 		
 		if ( table.HasValue( CarKeysVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) and ( ply:GetEyeTrace().Entity:GetNWBool( "CarKeysVehicleLocked", false ) ) then
 			ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ]])
