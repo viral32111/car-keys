@@ -110,9 +110,11 @@ function SWEP:PrimaryAttack()
 		if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
 			ent:EmitSound( "npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav" )
 			ent:SetNWBool( "CarKeysVehicleLocked", true )
-			timer.Simple( 0.5, function()
-				ent:EmitSound( "carkeys/lock.wav" )
-			end )
+			if not ( ent:WaterLevel() >= 1 ) then
+				timer.Simple( 0.5, function()
+					ent:EmitSound( "carkeys/lock.wav" )
+				end )
+			end
 		else
 			ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot lock this vehicle, You don't own it." ) ]])
 			ent:EmitSound("doors/handle_pushbar_locked1.wav")
