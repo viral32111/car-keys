@@ -50,7 +50,6 @@ function SWEP:Reload()
 		end
 
 		local ply = self.Owner
-		if ( ply:GetEyeTrace() ~= nil ) then return end
 		local ent = ply:GetEyeTrace().Entity
 		local Price = ent:GetNWInt( "CarKeysVehiclePrice", 0 )
 
@@ -102,7 +101,6 @@ function SWEP:PrimaryAttack()
 		end
 
 		local ply = self.Owner
-		if ( ply:GetEyeTrace() ~= nil ) then return end
 		local ent = ply:GetEyeTrace().Entity
 
 		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
@@ -136,7 +134,6 @@ function SWEP:SecondaryAttack()
 		end
 
 		local ply = self.Owner
-		if ( ply:GetEyeTrace() ~= nil ) then return end
 		local ent = ply:GetEyeTrace().Entity
 
 		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
