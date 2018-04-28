@@ -29,14 +29,14 @@ function SWEP:DrawHUD()
 	local owner = trace:GetNWString( "CarKeysVehicleOwner", "N/A" )
 	local Price = tostring( trace:GetNWInt( "CarKeysVehiclePrice", 0 ) )
 
-	if ( trace == nil ) then return end
+	if ( trace == nil or trace == NULL ) then return end
 	if ( ply:InVehicle() ) then return end
 	if ( ply:GetPos():Distance( trace:GetPos() ) >= 150 ) then return end
 
 	if ( table.HasValue( CarKeysVehicles, trace:GetClass() ) ) and ( trace:GetClass() != "gmod_sent_vehicle_fphysics_wheel" ) then
 		if ( owner != "N/A" ) then
 			draw.DrawText( "Owned by " .. owner, "TargetID", ScrW()/2, ScrH()/2+15, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
-			if ( ply:GetEyeTrace().Entity:GetNWBool( "CarKeysVehicleLocked", false ) ) then
+			if ( ply:GetEyeTrace().Entity:GetNWBool( "CarKeysVehicleLocked" ) ) then
 				draw.DrawText( "Vehicle is locked", "TargetIDSmall", ScrW()/2, ScrH()/2+35, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
 			else
 				draw.DrawText( "Vehicle is unlocked", "TargetIDSmall", ScrW()/2, ScrH()/2+35, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
