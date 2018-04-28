@@ -40,6 +40,10 @@ SWEP.ViewModelFlip = false
 SWEP.ViewModel = "models/sentry/pgkey.mdl"
 SWEP.WorldModel = "" -- models/sentry/pgkey.mdl
 
+function SWEP:Initialize()
+	self:SetHoldType("normal")
+end
+
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
 		if ( timer.Exists( "CarKeysReloadTimer" ) ) then
@@ -51,8 +55,9 @@ function SWEP:Reload()
 
 		local ply = self.Owner
 		local ent = ply:GetEyeTrace().Entity
-		local Price = ent:GetNWInt( "CarKeysVehiclePrice", 0 )
+		local Price = ent:GetNWInt( "CarKeysVehiclePrice" )
 
+		if ( ent == nil or ent == NULL ) then return end
 		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
 		if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
@@ -61,11 +66,11 @@ function SWEP:Reload()
 			if ( engine.ActiveGamemode() == "darkrp" ) then
 				if ( ply:canAfford( Price ) ) then
 					ply:addMoney( -Price )
-					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have bought this vehicle for $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice", 0 ) ) ) ]])
+					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have bought this vehicle for $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice" ) ) ) ]])
 					ent:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
 					ent:EmitSound("ambient/machines/keyboard6_clicks.wav")
 				else
-					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot affort this vehicle! It cost $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice", 0 ) ) ) ]])
+					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot affort this vehicle! It cost $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice" ) ) ) ]])
 				end
 			else
 				ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have acquired this vehicle!" ) ]])
@@ -76,7 +81,7 @@ function SWEP:Reload()
 			if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
 				if ( engine.ActiveGamemode() == "darkrp" ) then
 					ply:addMoney( Price )
-					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have sold your vehicle for $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice", 0 ) ) ) ]])
+					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have sold your vehicle for $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt( "CarKeysVehiclePrice" ) ) ) ]])
 				else
 					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You no longer own this vehicle." ) ]])
 				end
@@ -103,6 +108,7 @@ function SWEP:PrimaryAttack()
 		local ply = self.Owner
 		local ent = ply:GetEyeTrace().Entity
 
+		if ( ent == nil or ent == NULL ) then return end
 		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
 		if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
@@ -119,6 +125,7 @@ function SWEP:PrimaryAttack()
 			ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot lock this vehicle, You don't own it." ) ]])
 			ent:EmitSound("doors/handle_pushbar_locked1.wav")
 		end
+
 		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
 		ply:SendLua([[ LocalPlayer():AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true) ]])
 	end
@@ -136,6 +143,7 @@ function SWEP:SecondaryAttack()
 		local ply = self.Owner
 		local ent = ply:GetEyeTrace().Entity
 
+		if ( ent == nil or ent == NULL ) then return end
 		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
 		if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
@@ -147,6 +155,7 @@ function SWEP:SecondaryAttack()
 			ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot unlock this vehicle, You don\'t own it." ) ]])
 			ent:EmitSound("doors/handle_pushbar_locked1.wav")
 		end
+		
 		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
 		ply:SendLua([[ LocalPlayer():AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true ) ]])
 	end 

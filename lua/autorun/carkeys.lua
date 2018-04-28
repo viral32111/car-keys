@@ -15,7 +15,7 @@ limitations under the License.
 ---------------------------------------------------------------------------]]
 
 CarKeys = {}
-CarKeys.Version = 124
+CarKeys.Version = 125
 CarKeys.Name = "Car Keys"
 
 AddCSLuaFile("carkeys_config.lua")
