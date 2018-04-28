@@ -26,7 +26,7 @@ hook.Add( "PlayerUse", "CarKeysUseVehicle", function( ply, ent )
 	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then
 		if ( ply:GetPos():Distance( ply:GetEyeTrace().Entity:GetPos() ) >= 150 ) then return false end
 
-		if ( ent:GetNWBool( "CarKeysVehicleLocked", false ) ) then
+		if ( ent:GetNWBool( "CarKeysVehicleLocked" ) ) then
 			return false
 		else
 			return true
@@ -117,3 +117,21 @@ if ( engine.ActiveGamemode() == "darkrp" ) then
 else
 	print( "[Car Keys] Set vehicle price chat command has been disabled." )
 end
+
+--[[-------------------------------------------------------------------------
+When damage is taken
+---------------------------------------------------------------------------]]
+hook.Add("EntityTakeDamage", "CarKeysOnVehicleDamaged", function( target, dmg )
+	if ( target:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
+
+	if ( table.HasValue( CarKeysVehicles, target:GetClass() ) and target:GetNWBool("CarKeysVehicleLocked") ) then
+		if ( timer.Exists( "CarKeysDamageTimer" ) ) then
+			timer.Adjust( "CarKeysDamageTimer", 8, 1, function() end )
+			return
+		else
+			timer.Create( "CarKeysDamageTimer", 8, 1, function() end )
+		end
+
+		target:EmitSound("carkeys/alarm.wav")
+	end
+end )
