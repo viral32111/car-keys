@@ -27,7 +27,7 @@ function SWEP:DrawHUD()
 	local ply = LocalPlayer()
 	local trace = ply:GetEyeTrace().Entity
 	local owner = trace:GetNWEntity("CarKeysVehicleOwner")
-	local price = tostring( trace:GetNWInt( "CarKeysVehiclePrice", 0 ) )
+	local price = tostring( trace:GetNWInt("CarKeysVehiclePrice") )
 
 	if ( trace == nil or trace == NULL ) then return end
 	if ( ply:InVehicle() ) then return end
@@ -35,15 +35,15 @@ function SWEP:DrawHUD()
 
 	if ( table.HasValue( CarKeysVehicles, trace:GetClass() ) ) and ( trace:GetClass() != "gmod_sent_vehicle_fphysics_wheel" ) then
 		if ( owner != NULL ) then
-			draw.DrawText( "Owned by " .. owner:Nick(), "TargetID", ScrW()/2, ScrH()/2+15, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
-			if ( ply:GetEyeTrace().Entity:GetNWBool( "CarKeysVehicleLocked" ) ) then
+			draw.DrawText("Owned by " .. owner:Nick(), "TargetID", ScrW()/2, ScrH()/2+15, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
+			if ( ply:GetEyeTrace().Entity:GetNWBool("CarKeysVehicleLocked") ) then
 				draw.DrawText( "Vehicle is locked", "TargetIDSmall", ScrW()/2, ScrH()/2+35, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
 			else
 				draw.DrawText( "Vehicle is unlocked", "TargetIDSmall", ScrW()/2, ScrH()/2+35, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
 			end
 		else
-			draw.DrawText( "Vehicle is unowned!", "TargetID", ScrW()/2, ScrH()/2+15, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
-			if ( engine.ActiveGamemode() == "darkrp" ) ) then
+			draw.DrawText("Vehicle is unowned!", "TargetID", ScrW()/2, ScrH()/2+15, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
+			if ( engine.ActiveGamemode() == "darkrp" ) then
 				draw.DrawText( "Press R to buy it for $" .. price, "TargetIDSmall", ScrW()/2, ScrH()/2+35, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
 			else
 				draw.DrawText( "Press R to acquire it", "TargetIDSmall", ScrW()/2, ScrH()/2+35, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER)
