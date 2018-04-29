@@ -126,12 +126,16 @@ hook.Add("EntityTakeDamage", "CarKeysOnVehicleDamaged", function( target, dmg )
 
 	if ( table.HasValue( CarKeysVehicles, target:GetClass() ) and target:GetNWBool("CarKeysVehicleLocked") ) then
 		if ( timer.Exists( "CarKeysDamageTimer" ) ) then
-			timer.Adjust( "CarKeysDamageTimer", 8, 1, function() end )
+			-- timer.Adjust("CarKeysDamageTimer", 35, 1, function() end)
 			return
 		else
-			timer.Create( "CarKeysDamageTimer", 8, 1, function() end )
+			timer.Create("CarKeysDamageTimer", 8, 1, function() end)
 		end
 
-		target:EmitSound("carkeys/alarm.wav")
+		timer.Create("CarKeysLoopAlarm", 8, 5, function()
+			local RepeatsLeft = timer.RepsLeft("CarKeysLoopAlarm")
+			print("Playing alarm... " .. tostring(timer.RepsLeft("CarKeysLoopAlarm")))
+			target:EmitSound("carkeys/alarm.wav")
+		end )
 	end
 end )

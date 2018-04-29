@@ -15,7 +15,7 @@ limitations under the License.
 ---------------------------------------------------------------------------]]
 
 CarKeys = {}
-CarKeys.Version = 125
+CarKeys.Version = 126
 CarKeys.Name = "Car Keys"
 
 AddCSLuaFile("carkeys_config.lua")
@@ -29,6 +29,7 @@ resource.AddSingleFile("models/sentry/pgkey.sw.vtx")
 resource.AddSingleFile("models/sentry/pgkey.dx80.vtx")
 resource.AddSingleFile("models/sentry/pgkey.dx90.vtx")
 resource.AddSingleFile("sound/carkeys/lock.wav")
+resource.AddSingleFile("sound/carkeys/alarm.wav")
 
 if ( SERVER ) then
 	if not ( file.Exists("carkeys", "DATA") ) then

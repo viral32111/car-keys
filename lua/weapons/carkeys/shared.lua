@@ -118,7 +118,9 @@ function SWEP:PrimaryAttack()
 			ent:SetNWBool( "CarKeysVehicleLocked", true )
 			if not ( ent:WaterLevel() >= 1 ) then
 				timer.Simple( 0.5, function()
-					ent:EmitSound( "carkeys/lock.wav" )
+					if ( ent:IsValid() ) then
+						ent:EmitSound( "carkeys/lock.wav" )
+					end
 				end )
 			end
 		else
