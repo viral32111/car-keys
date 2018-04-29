@@ -85,7 +85,7 @@ hook.Add("PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 end )
 
 --[[-------------------------------------------------------------------------
-Set Vehicle Price Property
+Set Vehicle Price
 ---------------------------------------------------------------------------]]
 if ( engine.ActiveGamemode() == "darkrp" ) then
 	hook.Add("PlayerSay", "CarKeysSetVehiclePrice", function( ply, text, public )
@@ -124,18 +124,63 @@ When damage is taken
 hook.Add("EntityTakeDamage", "CarKeysOnVehicleDamaged", function( target, dmg )
 	if ( target:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
 
-	if ( table.HasValue( CarKeysVehicles, target:GetClass() ) and target:GetNWBool("CarKeysVehicleLocked") ) then
-		if ( timer.Exists( "CarKeysDamageTimer" ) ) then
-			-- timer.Adjust("CarKeysDamageTimer", 35, 1, function() end)
+	if ( table.HasValue( CarKeysVehicles, target:GetClass() ) and target:GetNWBool("CarKeysVehicleLocked") and target:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
+		if ( timer.Exists(target:EntIndex() .. "CarKeysDamageTimer") ) then
 			return
 		else
-			timer.Create("CarKeysDamageTimer", 8, 1, function() end)
+			timer.Create(target:EntIndex() .. "CarKeysDamageTimer", 8*12, 1, function() end)
 		end
 
-		timer.Create("CarKeysLoopAlarm", 8, 5, function()
-			local RepeatsLeft = timer.RepsLeft("CarKeysLoopAlarm")
-			print("Playing alarm... " .. tostring(timer.RepsLeft("CarKeysLoopAlarm")))
-			target:EmitSound("carkeys/alarm.wav")
+		target:SetNWBool("CarKeysVehicleAlarm", true)
+		target:EmitSound("carkeys_alarm")
+
+		target:GetNWEntity("CarKeysVehicleOwner"):SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "Your car has been damaged!" ) ]])
+
+		if ( target:GetClass() == "gmod_sent_vehicle_fphysics_base" ) then
+			timer.Create( target:EntIndex() .. "CarKeysAlarmLights", 2, 4, function()
+				if ( target:IsValid() ) then
+					target:SetLightsEnabled(true)
+				end
+				timer.Simple( 1, function()
+					if ( target:IsValid() ) then
+						target:SetLightsEnabled(false)
+					end
+				end )
+			end )
+		end
+
+		timer.Create( target:EntIndex() .. "CarKeysLoopAlarm", 8, 12, function()
+			if ( target:IsValid() ) then
+				if ( target:GetClass() == "gmod_sent_vehicle_fphysics_base" ) then
+					timer.Create( target:EntIndex() .. "CarKeysAlarmLights", 2, (8*12)/2, function()
+						if ( target:IsValid() ) then
+							target:SetLightsEnabled(true)
+						end
+						timer.Simple( 1, function()
+							if ( target:IsValid() ) then
+								target:SetLightsEnabled(false)
+							end
+						end )
+					end )
+				end
+				target:EmitSound("carkeys_alarm")
+			else
+				target:SetNWBool("CarKeysVehicleAlarm", false)
+				timer.Remove(target:EntIndex() .. "CarKeysLoopAlarm")
+				timer.Remove(target:EntIndex() .. "CarKeysAlarmLights")
+			end
 		end )
+	end
+end )
+
+--[[-------------------------------------------------------------------------
+Stop alarm when removed
+---------------------------------------------------------------------------]]
+hook.Add("EntityRemoved", "CarKeysVehicleRemoved", function( ent )
+	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) and ent:GetNWBool("CarKeysVehicleAlarm") ) then
+		timer.Remove("CarKeysLoopAlarm")
+		timer.Remove("CarKeysAlarmLights")
+		ent:SetNWBool("CarKeysVehicleAlarm", false)
+		ent:StopSound("carkeys_alarm")
 	end
 end )
