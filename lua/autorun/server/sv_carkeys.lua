@@ -26,7 +26,7 @@ hook.Add( "PlayerUse", "CarKeysUseVehicle", function( ply, ent )
 	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then
 		if ( ply:GetPos():Distance( ply:GetEyeTrace().Entity:GetPos() ) >= 150 ) then return false end
 
-		if ( ent:GetNWBool( "CarKeysVehicleLocked" ) ) then
+		if ( ent:GetNWBool("CarKeysVehicleLocked") ) then
 			return false
 		else
 			return true
@@ -39,7 +39,7 @@ hook.Add( "KeyPress", "CarKeysVehicleMessage", function( ply, key )
 		if ( ply:GetEyeTrace().Entity:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
 		if ( ply:GetPos():Distance( ply:GetEyeTrace().Entity:GetPos() ) >= 150 ) then return false end
 		
-		if ( table.HasValue( CarKeysVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) and ( ply:GetEyeTrace().Entity:GetNWBool( "CarKeysVehicleLocked", false ) ) then
+		if ( table.HasValue( CarKeysVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) and ( ply:GetEyeTrace().Entity:GetNWBool("CarKeysVehicleLocked") ) then
 			ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ]])
 			ply:EmitSound("doors/handle_pushbar_locked1.wav")
 		end
@@ -53,13 +53,13 @@ hook.Add( "PlayerSpawnedVehicle", "CarKeysSetVehiclePrice", function( ply, vehic
 	if ( vehicle:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 
 	if ( table.HasValue( CarKeysVehicles, vehicle:GetClass() ) ) then
-		vehicle:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
+		vehicle:SetNWEntity("CarKeysVehicleOwner", ply)
 		if ( engine.ActiveGamemode() == "darkrp" ) then
 			if ( file.Exists( "carkeys/" .. vehicle:GetClass() .. ".txt", "DATA" ) ) then
-				local price = tonumber( file.Read( "carkeys/" .. vehicle:GetClass() .. ".txt", "DATA" ) )
-				vehicle:SetNWInt( "CarKeysVehiclePrice", price )
+				local price = tonumber( file.Read("carkeys/" .. vehicle:GetClass() .. ".txt", "DATA") )
+				vehicle:SetNWInt("CarKeysVehiclePrice", price)
 			else
-				vehicle:SetNWInt( "CarKeysVehiclePrice", 0 )
+				vehicle:SetNWInt("CarKeysVehiclePrice", 0)
 			end
 		end
 	end
@@ -68,15 +68,15 @@ end )
 --[[-------------------------------------------------------------------------
 Vehicle Pickup
 ---------------------------------------------------------------------------]]
-hook.Add( "PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
+hook.Add("PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
 	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then
 		if ( ply:IsAdmin() or ply:IsSuperAdmin() ) then
 			return true
 		else
-			if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == "N/A" ) then
+			if ( ent:GetNWEntity("CarKeysVehicleOwner") == NULL ) then
 				return false
 			else
-				if ( ent:GetNWString( "CarKeysVehicleOwner", "N/A" ) == ply:Nick() ) then
+				if ( ent:GetNWEntity("CarKeysVehicleOwner"):Nick() == ply:Nick() ) then
 					return true
 				end
 			end
@@ -88,7 +88,7 @@ end )
 Set Vehicle Price Property
 ---------------------------------------------------------------------------]]
 if ( engine.ActiveGamemode() == "darkrp" ) then
-	hook.Add( "PlayerSay", "CarKeysSetVehiclePrice", function( ply, text, public )
+	hook.Add("PlayerSay", "CarKeysSetVehiclePrice", function( ply, text, public )
 		local text = string.lower( text )
 
 		if ( string.sub( text, 1, 9 ) == "!setprice" ) then
@@ -115,7 +115,7 @@ if ( engine.ActiveGamemode() == "darkrp" ) then
 		end
 	end )
 else
-	print( "[Car Keys] Set vehicle price chat command has been disabled." )
+	print("[Car Keys] Set vehicle price chat command has been disabled.")
 end
 
 --[[-------------------------------------------------------------------------
