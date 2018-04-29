@@ -37,6 +37,15 @@ if ( SERVER ) then
 	end
 end
 
+sound.Add({
+	name = "carkeys_alarm",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 80,
+	pitch = 100,
+	sound = "carkeys/alarm.wav"
+})
+
 hook.Add("PlayerConnect", CarKeys.Name .. "VersionCheck", function()
 	http.Fetch("https://raw.githubusercontent.com/viral32111/car-keys/master/README.md", function( LatestVersion )
 		local LatestVersion = tonumber( string.sub( LatestVersion, string.len( CarKeys.Name )+18, string.len( CarKeys.Name )+21 ) )

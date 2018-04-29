@@ -46,7 +46,7 @@ end
 
 function SWEP:Reload()
 	if ( SERVER and IsFirstTimePredicted() ) then
-		if ( timer.Exists("CarKeysReloadTimer" ) ) then
+		if ( timer.Exists("CarKeysReloadTimer") ) then
 			timer.Adjust("CarKeysReloadTimer", 0.1, 1, function() end)
 			return
 		else
@@ -74,7 +74,7 @@ function SWEP:Reload()
 				end
 			else
 				ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have acquired this vehicle!" ) ]])
-				ent:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
+				ent:SetNWEntity("CarKeysVehicleOwner", ply)
 				ent:EmitSound("ambient/machines/keyboard6_clicks.wav")
 			end
 		else
@@ -86,8 +86,15 @@ function SWEP:Reload()
 					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You no longer own this vehicle." ) ]])
 				end
 
-				ent:SetNWEntity("CarKeysVehicleOwner", ply)
+				ent:SetNWBool("CarKeysVehicleLocked", false)
+				ent:SetNWEntity("CarKeysVehicleOwner", NULL)
 				ent:EmitSound("buttons/lightswitch2.wav")
+				if ( ent:GetNWBool("CarKeysVehicleAlarm") ) then
+					ent:SetNWBool("CarKeysVehicleAlarm", false)
+					ent:StopSound("carkeys_alarm")
+					timer.Remove(ent:EntIndex() .. "CarKeysLoopAlarm")
+					timer.Remove(ent:EntIndex() .. "CarKeysAlarmLights")
+				end
 			else
 				ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot purchase this vehicle, It is owned by " .. LocalPlayer():GetEyeTrace().Entity:GetNWEntity("CarKeysVehicleOwner"):Nick() ) ]])
 				ent:EmitSound("doors/handle_pushbar_locked1.wav")
@@ -99,7 +106,7 @@ end
 function SWEP:PrimaryAttack()
 	if ( SERVER and IsFirstTimePredicted() ) then
 		if ( timer.Exists("CarKeysPrimaryAttackTimer") ) then
-			timer.Adjust("CarKeysPrimaryAttackTimer", 0.01, 1, function() end)
+			timer.Adjust("CarKeysPrimaryAttackTimer", 0.01, 1, function() end )
 			return
 		else
 			timer.Create("CarKeysPrimaryAttackTimer", 0.01, 1, function() end)
@@ -113,7 +120,7 @@ function SWEP:PrimaryAttack()
 		if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
 
-		if ( ent:GetNWEntity("CarKeysVehicleOwner"):Nick() == ply:Nick() ) then
+		if ( ent:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
 			ent:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
 			ent:SetNWBool("CarKeysVehicleLocked", true)
 			if not ( ent:WaterLevel() >= 1 ) then
@@ -128,15 +135,18 @@ function SWEP:PrimaryAttack()
 			ent:EmitSound("doors/handle_pushbar_locked1.wav")
 		end
 
-		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
-		ply:SendLua([[ LocalPlayer():AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true) ]])
+		if not ( timer.Exists("CarKeysAnimationTimer") ) then
+			timer.Create("CarKeysAnimationTimer", 2, 1, function() end)
+			ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
+			ply:SendLua([[ LocalPlayer():AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true ) ]])
+		end
 	end
 end
 
 function SWEP:SecondaryAttack()
 	if ( SERVER and IsFirstTimePredicted() ) then
 		if ( timer.Exists("CarKeysSecondaryAttackTimer") ) then
-			timer.Adjust("CarKeysSecondaryAttackTimer", 0.01, 1, function() end)
+			timer.Adjust("CarKeysSecondaryAttackTimer", 0.01, 1, function() end )
 			return
 		else
 			timer.Create("CarKeysSecondaryAttackTimer", 0.01, 1, function() end)
@@ -150,7 +160,14 @@ function SWEP:SecondaryAttack()
 		if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
 	 
-		if ( ent:GetNWEntity("CarKeysVehicleOwner"):Nick() == ply:Nick() ) then
+		if ( ent:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
+			if ( ent:GetNWBool("CarKeysVehicleAlarm") ) then
+				ent:SetNWBool("CarKeysVehicleAlarm", false)
+				ent:StopSound("carkeys_alarm")
+				timer.Remove(ent:EntIndex() .. "CarKeysLoopAlarm")
+				timer.Remove(ent:EntIndex() .. "CarKeysAlarmLights")
+				ply:SendLua([[ chat.AddText( Color( 0, 180, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "Car alarm stopped." ) ]])
+			end
 			ent:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
 			ent:SetNWBool("CarKeysVehicleLocked", false)
 		else
@@ -158,8 +175,11 @@ function SWEP:SecondaryAttack()
 			ent:EmitSound("doors/handle_pushbar_locked1.wav")
 		end
 		
-		ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
-		ply:SendLua([[ LocalPlayer():AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true ) ]])
+		if not ( timer.Exists("CarKeysAnimationTimer") ) then
+			timer.Create("CarKeysAnimationTimer", 2, 1, function() end)
+			ply:AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true )
+			ply:SendLua([[ LocalPlayer():AnimRestartGesture( GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true ) ]])
+		end
 	end 
 end
 
