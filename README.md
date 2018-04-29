@@ -9,7 +9,7 @@ If you own the vehicle you have the ability to lock it (Left Click), unlock it (
 
 Supports any roleplay gamemode that includes 'rp' in the name.
 
-For RP gamemodes you can buy and sell the car (R) prices can be configured by typing '!setprice' in chat followed by an amount while looking at the vehicle. This value will save over server restart.
+For RP gamemodes you can buy and sell the car (Press R) prices can be configured by typing '!setprice' in chat followed by an amount while looking at the vehicle. This value will save over server restart.
 
 If your in a server using this addon and you have bought a car and your game crashes or you leave, the vehicle will still be yours when you join again (As long as the server doesn't have some sort of prop removal on disconnect or it restarts)
 
