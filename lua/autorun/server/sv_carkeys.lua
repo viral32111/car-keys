@@ -184,3 +184,17 @@ hook.Add("EntityRemoved", "CarKeysVehicleRemoved", function( ent )
 		ent:StopSound("carkeys_alarm")
 	end
 end )
+
+--[[-------------------------------------------------------------------------
+Alarm when moved
+---------------------------------------------------------------------------]]
+-- Fix for the next update, don't work atm :/ (Probs sometime this week)
+--[[hook.Add("Think", "CarKeysVehicleMoved", function()
+	for _, ent in pairs( ents.GetAll() ) do
+		if not ( ent:IsValid() ) then return end
+
+		if ( ent:IsVehicle() and table.HasValue( CarKeysVehicles, ent:GetClass() ) and ent:GetNWBool("CarKeysVehicleLocked") and ent:GetVelocity():Length() > 0 ) then
+			print(tostring(ent) .. " moved!")
+		end
+	end
+end )]]
