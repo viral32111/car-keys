@@ -67,7 +67,7 @@ function SWEP:Reload()
 				if ( ply:canAfford( price ) ) then
 					ply:addMoney( -price )
 					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have bought this vehicle for $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt("CarKeysVehiclePrice") ) ) ]])
-					ent:SetNWString( "CarKeysVehicleOwner", ply:Nick() )
+					ent:SetNWEntity("CarKeysVehicleOwner", ply)
 					ent:EmitSound("ambient/machines/keyboard6_clicks.wav")
 				else
 					ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You cannot affort this vehicle! It cost $" .. tostring( LocalPlayer():GetEyeTrace().Entity:GetNWInt("CarKeysVehiclePrice") ) ) ]])
@@ -119,8 +119,9 @@ function SWEP:PrimaryAttack()
 		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
 		if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
-
-		if ( ent:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
+		if ( ent:GetNWEntity("CarKeysVehicleOwner") == NULL ) then return end
+		
+		if ( ent:GetNWEntity("CarKeysVehicleOwner"):Nick() == ply:Nick() ) then
 			ent:EmitSound("npc/metropolice/gear" .. math.floor( math.Rand( 1, 7 ) ) .. ".wav")
 			ent:SetNWBool("CarKeysVehicleLocked", true)
 			if not ( ent:WaterLevel() >= 1 ) then
@@ -159,8 +160,9 @@ function SWEP:SecondaryAttack()
 		if not ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then return end
 		if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
 		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return end
-	 
-		if ( ent:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
+		if ( ent:GetNWEntity("CarKeysVehicleOwner") == NULL ) then return end
+		
+		if ( ent:GetNWEntity("CarKeysVehicleOwner"):Nick() == ply:Nick() ) then
 			if ( ent:GetNWBool("CarKeysVehicleAlarm") ) then
 				ent:SetNWBool("CarKeysVehicleAlarm", false)
 				ent:StopSound("carkeys_alarm")
