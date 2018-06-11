@@ -15,7 +15,7 @@ limitations under the License.
 ---------------------------------------------------------------------------]]
 
 CarKeys = {}
-CarKeys.Version = 127
+CarKeys.Version = 128
 CarKeys.Name = "Car Keys"
 
 AddCSLuaFile("carkeys_config.lua")
@@ -40,7 +40,7 @@ end
 sound.Add({
 	name = "carkeys_alarm",
 	channel = CHAN_STATIC,
-	volume = 1.0,
+	volume = 0.6, -- Fuck that alarm was loud
 	level = 80,
 	pitch = 100,
 	sound = "carkeys/alarm.wav"
