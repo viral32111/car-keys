@@ -1,5 +1,5 @@
 --[[-------------------------------------------------------------------------
-Vehicle classes that Car Keys will work with. Add more if you wish!
+Entity classes that Car Keys will work with
 ---------------------------------------------------------------------------]]
 CarKeysVehicles = {
 	-- Half Life 2
@@ -8,7 +8,7 @@ CarKeysVehicles = {
 	"prop_vehicle_airboat",
 	"prop_vehicle_prisoner_pod",
 	-- Simfphys
-	"gmod_sent_vehicle_fphysics_base", -- Wheel class isn't included as we don't want people owning the wheels of a vehicle and not the rest of it :/
+	"gmod_sent_vehicle_fphysics_base",
 	-- SCars
 	"sent_sakarias_car_banshee",
 	"sent_sakarias_car_belair",
@@ -62,5 +62,13 @@ CarKeysVehicles = {
 	"sent_sakarias_car_yamahayfz450",
 	"sent_sakarias_car_junker3",
 	"sent_sakarias_car_junker2",
-	"sent_sakarias_car_junker1"
+	"sent_sakarias_car_junker1",
+}
+
+--[[-------------------------------------------------------------------------
+Entity classes that Car Keys will ignore
+---------------------------------------------------------------------------]]
+CarKeysBlacklist = {
+	"gmod_sent_vehicle_fphysics_wheel",
+	"wac_aircraft_maintenance",
 }

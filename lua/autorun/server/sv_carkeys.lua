@@ -20,10 +20,10 @@ include("carkeys_config.lua")
 --[[-------------------------------------------------------------------------
 Vehicle Locking
 ---------------------------------------------------------------------------]]
-hook.Add( "PlayerUse", "CarKeysUseVehicle", function( ply, ent )
-	if ( ent:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
+hook.Add("PlayerUse", CarKeys.Name .. "UseVehicle", function( ply, ent )
+	if ( table.HasValue( CarKeysBlacklist, ent:GetClass() ) ) then return false end
 	
-	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then
+	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) or string.find(ent:GetClass(), "wac_") ) then
 		if ( ply:GetPos():Distance( ply:GetEyeTrace().Entity:GetPos() ) >= 150 ) then return false end
 
 		if ( ent:GetNWBool("CarKeysVehicleLocked") ) then
@@ -34,12 +34,14 @@ hook.Add( "PlayerUse", "CarKeysUseVehicle", function( ply, ent )
 	end
 end )
 
-hook.Add( "KeyPress", "CarKeysVehicleMessage", function( ply, key )
-	if ( key == IN_USE ) then	
-		if ( ply:GetEyeTrace().Entity:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
-		if ( ply:GetPos():Distance( ply:GetEyeTrace().Entity:GetPos() ) >= 150 ) then return false end
+hook.Add("KeyPress", CarKeys.Name .. "VehicleMessage", function( ply, key )
+	if ( key == IN_USE ) then
+		local ent = ply:GetEyeTrace().Entity
+
+		if ( table.HasValue( CarKeysBlacklist, ent:GetClass() ) ) then return false end
+		if ( ply:GetPos():Distance( ent:GetPos() ) >= 150 ) then return false end
 		
-		if ( table.HasValue( CarKeysVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) and ( ply:GetEyeTrace().Entity:GetNWBool("CarKeysVehicleLocked") ) then
+		if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) or string.find(ent:GetClass(), "wac_") ) and ( ent:GetNWBool("CarKeysVehicleLocked") ) then
 			ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is locked, You cannot enter it." ) ]])
 			ply:EmitSound("doors/handle_pushbar_locked1.wav")
 		end
@@ -49,14 +51,16 @@ end )
 --[[-------------------------------------------------------------------------
 Set Vehicle Price on Spawn
 ---------------------------------------------------------------------------]]
-hook.Add( "PlayerSpawnedVehicle", "CarKeysSetVehiclePrice", function( ply, vehicle )
-	if ( vehicle:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
+hook.Add("PlayerSpawnedVehicle", CarKeys.Name .. "SetVehiclePrice", function( ply, vehicle )
+	if ( table.HasValue( CarKeysBlacklist, vehicle:GetClass() ) ) then return false end
 
 	if ( table.HasValue( CarKeysVehicles, vehicle:GetClass() ) ) then
 		vehicle:SetNWEntity("CarKeysVehicleOwner", ply)
+
 		if ( engine.ActiveGamemode() == "darkrp" ) then
 			if ( file.Exists( "carkeys/" .. vehicle:GetClass() .. ".txt", "DATA" ) ) then
 				local price = tonumber( file.Read("carkeys/" .. vehicle:GetClass() .. ".txt", "DATA") )
+
 				vehicle:SetNWInt("CarKeysVehiclePrice", price)
 			else
 				vehicle:SetNWInt("CarKeysVehiclePrice", 0)
@@ -66,10 +70,31 @@ hook.Add( "PlayerSpawnedVehicle", "CarKeysSetVehiclePrice", function( ply, vehic
 end )
 
 --[[-------------------------------------------------------------------------
+Set Entity price on spawn (WAC Only)
+---------------------------------------------------------------------------]]
+hook.Add("PlayerSpawnedSENT", CarKeys.Name .. "SetEntityPrice", function( ply, ent )
+	if ( table.HasValue( CarKeysBlacklist, ent:GetClass() ) ) then return false end
+
+	if ( string.find(ent:GetClass(), "wac_") ) then
+		ent:SetNWEntity("CarKeysVehicleOwner", ply)
+
+		if ( engine.ActiveGamemode() == "darkrp" ) then
+			if ( file.Exists( "carkeys/" .. ent:GetClass() .. ".txt", "DATA" ) ) then
+				local price = tonumber( file.Read("carkeys/" .. ent:GetClass() .. ".txt", "DATA") )
+
+				ent:SetNWInt("CarKeysVehiclePrice", price)
+			else
+				ent:SetNWInt("CarKeysVehiclePrice", 0)
+			end
+		end
+	end
+end )
+
+--[[-------------------------------------------------------------------------
 Vehicle Pickup
 ---------------------------------------------------------------------------]]
-hook.Add("PhysgunPickup", "CarKeysVehiclePickingUp", function( ply, ent )
-	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) ) then
+hook.Add("PhysgunPickup", CarKeys.Name .. "VehiclePickingUp", function( ply, ent )
+	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) or string.find(ent:GetClass(), "wac_") ) then
 		if ( ply:IsAdmin() or ply:IsSuperAdmin() ) then
 			return true
 		else
@@ -88,19 +113,23 @@ end )
 Set Vehicle Price
 ---------------------------------------------------------------------------]]
 if ( engine.ActiveGamemode() == "darkrp" ) then
-	hook.Add("PlayerSay", "CarKeysSetVehiclePrice", function( ply, text, public )
+	hook.Add("PlayerSay", CarKeys.Name .. "SetVehiclePrice", function( ply, text, public )
 		local text = string.lower( text )
 
 		if ( string.sub( text, 1, 9 ) == "!setprice" ) then
-			if ( ply:GetEyeTrace().Entity:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return end
+			local ent = ply:GetEyeTrace().Entity
 
-			if ( ply:GetEyeTrace().Entity:IsVehicle() ) then
+			if ( table.HasValue( CarKeysBlacklist, ent:GetClass() ) ) then return false end
+
+			if ( ent:IsVehicle() ) then
 				if ( string.sub( text, 11 ) != "" ) then
-					if ( table.HasValue( CarKeysVehicles, ply:GetEyeTrace().Entity:GetClass() ) ) then
-						vehicle = ply:GetEyeTrace().Entity
-						price = string.sub( text, 11 )
-						vehicle:SetNWInt("CarKeysVehiclePrice", tonumber( price ) )
-						file.Write("carkeys/" .. vehicle:GetClass() .. ".txt", price )
+					if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) or string.find(ent:GetClass(), "wac_") ) then
+						local price = string.sub( text, 11 )
+
+						ent:SetNWInt("CarKeysVehiclePrice", tonumber( price ) )
+
+						file.Write("carkeys/" .. ent:GetClass() .. ".txt", price)
+
 						ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You have successfully set the price of this vehicle!" ) ]])
 					else
 						ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "This vehicle is not compatible with Car Keys, Please contact the creator to fix this issue." ) ]])
@@ -111,6 +140,7 @@ if ( engine.ActiveGamemode() == "darkrp" ) then
 			else
 				ply:SendLua([[ chat.AddText( Color( 26, 198, 255 ), "(Car Keys) ", Color( 255, 255, 255 ), "You must be looking at a vehicle to set it's price." ) ]])
 			end
+
 			return ""
 		end
 	end )
@@ -121,10 +151,10 @@ end
 --[[-------------------------------------------------------------------------
 When damage is taken
 ---------------------------------------------------------------------------]]
-hook.Add("EntityTakeDamage", "CarKeysOnVehicleDamaged", function( target, dmg )
-	if ( target:GetClass() == "gmod_sent_vehicle_fphysics_wheel" ) then return false end
+hook.Add("EntityTakeDamage", CarKeys.Name .. "OnVehicleDamaged", function( target, dmg )
+	if ( table.HasValue( CarKeysBlacklist, target:GetClass() ) ) then return false end
 
-	if ( table.HasValue( CarKeysVehicles, target:GetClass() ) and target:GetNWBool("CarKeysVehicleLocked") and target:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
+	if ( table.HasValue( CarKeysVehicles, target:GetClass() ) or string.find(target:GetClass(), "wac_") ) and ( target:GetNWBool("CarKeysVehicleLocked") and target:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
 		if ( timer.Exists(target:EntIndex() .. "CarKeysDamageTimer") ) then
 			return
 		else
@@ -156,6 +186,7 @@ hook.Add("EntityTakeDamage", "CarKeysOnVehicleDamaged", function( target, dmg )
 						if ( target:IsValid() ) then
 							target:SetLightsEnabled(true)
 						end
+
 						timer.Simple( 1, function()
 							if ( target:IsValid() ) then
 								target:SetLightsEnabled(false)
@@ -166,6 +197,7 @@ hook.Add("EntityTakeDamage", "CarKeysOnVehicleDamaged", function( target, dmg )
 				target:EmitSound("carkeys_alarm")
 			else
 				target:SetNWBool("CarKeysVehicleAlarm", false)
+
 				timer.Remove(target:EntIndex() .. "CarKeysLoopAlarm")
 				timer.Remove(target:EntIndex() .. "CarKeysAlarmLights")
 			end
@@ -176,10 +208,11 @@ end )
 --[[-------------------------------------------------------------------------
 Stop alarm when removed
 ---------------------------------------------------------------------------]]
-hook.Add("EntityRemoved", "CarKeysVehicleRemoved", function( ent )
-	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) and ent:GetNWBool("CarKeysVehicleAlarm") ) then
+hook.Add("EntityRemoved", CarKeys.Name .. "VehicleRemoved", function( ent )
+	if ( table.HasValue( CarKeysVehicles, ent:GetClass() ) or string.find(ent:GetClass(), "wac_") ) and ( ent:GetNWBool("CarKeysVehicleAlarm") ) then
 		timer.Remove("CarKeysLoopAlarm")
 		timer.Remove("CarKeysAlarmLights")
+
 		ent:SetNWBool("CarKeysVehicleAlarm", false)
 		ent:StopSound("carkeys_alarm")
 	end
