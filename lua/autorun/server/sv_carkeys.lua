@@ -152,9 +152,9 @@ end
 When damage is taken
 ---------------------------------------------------------------------------]]
 hook.Add("EntityTakeDamage", CarKeys.Name .. "OnVehicleDamaged", function( target, dmg )
-	if ( table.HasValue( CarKeysBlacklist, target:GetClass() ) ) then return false end
+	if ( table.HasValue(CarKeysBlacklist, target:GetClass()) or table.HasValue(CarKeysNoAlarm, target:GetClass())) then return false end
 
-	if ( table.HasValue( CarKeysVehicles, target:GetClass() ) or string.find(target:GetClass(), "wac_") ) and ( target:GetNWBool("CarKeysVehicleLocked") and target:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
+	if ( table.HasValue( CarKeysVehicles, target:GetClass() ) ) and ( target:GetNWBool("CarKeysVehicleLocked") and target:GetNWEntity("CarKeysVehicleOwner") != NULL ) then
 		if ( timer.Exists(target:EntIndex() .. "CarKeysDamageTimer") ) then
 			return
 		else
@@ -221,7 +221,7 @@ end )
 --[[-------------------------------------------------------------------------
 Alarm when moved
 ---------------------------------------------------------------------------]]
--- Fix for the next update, don't work atm :/ (Probs sometime this week)
+-- This will be fixed at some point...
 --[[hook.Add("Think", "CarKeysVehicleMoved", function()
 	for _, ent in pairs( ents.GetAll() ) do
 		if not ( ent:IsValid() ) then return end
