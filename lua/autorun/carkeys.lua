@@ -15,7 +15,7 @@ limitations under the License.
 ---------------------------------------------------------------------------]]
 
 CarKeys = {}
-CarKeys.Version = 130
+CarKeys.Version = 131
 CarKeys.Name = "Car Keys"
 
 AddCSLuaFile("carkeys_config.lua")
@@ -47,9 +47,9 @@ sound.Add({
 })
 
 hook.Add("PlayerConnect", CarKeys.Name .. "VersionCheck", function()
-	http.Fetch("https://raw.githubusercontent.com/viral32111/car-keys/master/README.md", function( LatestVersion )
-		local LatestVersion = tonumber( string.sub( LatestVersion, string.len( CarKeys.Name )+18, string.len( CarKeys.Name )+21 ) )
-		if ( LatestVersion == CarKeys.Version ) then
+	http.Fetch("https://raw.githubusercontent.com/viral32111/car-keys/master/README.md", function(body)
+		local LatestVersion = tonumber(string.sub(body, string.len(CarKeys.Name)+18, string.len(CarKeys.Name)+21))
+		if (LatestVersion == CarKeys.Version) then
 			print("[" .. CarKeys.Name .. "] You are running the latest version!")
 		elseif ( LatestVersion > CarKeys.Version ) then
 			print("[" .. CarKeys.Name .. "] You are running an outdated version! (Latest: " .. LatestVersion .. ", Current: " .. CarKeys.Version .. ")")
@@ -58,7 +58,7 @@ hook.Add("PlayerConnect", CarKeys.Name .. "VersionCheck", function()
 		else
 			print("[" .. CarKeys.Name .. "] Failed to parse addon version! (Latest: " .. LatestVersion .. ", Current: " .. CarKeys.Version .. ")")
 		end
-	end, function( error )
+	end, function(error)
 		print("[" .. CarKeys.Name .. "] Failed to get addon version! (" .. error .. ")")
 	end )
 
