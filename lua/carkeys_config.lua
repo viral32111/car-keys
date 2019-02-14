@@ -108,7 +108,18 @@ CarKeysVehicles = {
 	"tx130",
 	"v19torrent",
 	"v-wing",
-	"headhunter"
+	"headhunter",
+	-- LFS
+	"lunasflightschool_arc170",
+	"lunasflightschool_bf109",
+	"lunasflightschool_cessna",
+	"lunasflightschool_combineheli",
+	"lunasflightschool_tridroid",
+	"lunasflightschool_n1starfighter",
+	"lunasflightschool_p47d",
+	"lunasflightschool_rebelheli",
+	"lunasflightschool_spitfire",
+	"lunasflightschool_vulturedroid"
 }
 
 --[[-------------------------------------------------------------------------
@@ -168,5 +179,16 @@ CarKeysNoAlarm = {
 	"tx130",
 	"v19torrent",
 	"v-wing",
-	"headhunter"
+	"headhunter",
+	-- LFS
+	"lunasflightschool_arc170",
+	"lunasflightschool_bf109",
+	"lunasflightschool_cessna",
+	"lunasflightschool_combineheli",
+	"lunasflightschool_tridroid",
+	"lunasflightschool_n1starfighter",
+	"lunasflightschool_p47d",
+	"lunasflightschool_rebelheli",
+	"lunasflightschool_spitfire",
+	"lunasflightschool_vulturedroid"
 }
