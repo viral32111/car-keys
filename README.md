@@ -1,29 +1,25 @@
 # Car Keys
-#### Version: 133
 
-In short this addon protects others from getting in or picking up your car.
+**Project started: 15/02/2017, Last updated: 20/05/2019**
 
-You can find the SWEP under "Car Keys" in the Weapons tab of the Spawn menu.
+This adds a Car Keys SWEP to Garry's Mod which lets players lock, unlock, buy and sell vehicles.
 
-There is alot more to this addon than what is in the screenshots, but these things can't have screenshots as most of it is just back-end code.
+If you own the vehicle you have the ability to lock it, unlock it, drive it, sell it and pick it up with your physgun. (Admins on the server still have the ablity to pickup anyones car.)
 
-If you own the vehicle you have the ability to lock it, unlock it, drive it and pick it up with your physgun.
+If you've bought a car and your game crashes or you leave a server, the vehicle will still be yours when you join again as long as the server doesn't restart or have prop removal on disconnect.
 
-If your in a server using this addon and you have bought a car and your game crashes or you leave, the vehicle will still be yours when you join again (As long as the server doesn't have some sort of prop removal on disconnect or it restarts)
+If you're running DarkRP with this then you'll be able to utilise the buying, selling and set price chat command. (`!setprice <amount>`)
 
-Admins on the server have the ablity to pickup anyones car.
-
-This addon should work with almost every car on the workshop. I know that it works with: TDMCars, SligWolf's Vehicles, LW Cars, SCars, Simfphys Lua Vehicles, WAC Aircraft, Star Wars Vehicles EP1 & EP2 and the Half Life 2 Vehicles. If it does not work with a vehicle contact me and i'll try to make it work with it. number, interger) and `CarKeys.Name` (Returns the display name of the addon, string)
-
-Controls:
-- Lock: Left Click
-- Unlock: Right Click
-- Buy/Sell: R
-
-Commands:
-- !setprice <amount> (Use while looking at the vehicle, only works on RP gamemodes)
-
-[Donate](https://viral32111.com/donate)
+__Currently compatible with:__ *(Should work with almost every car in the game, if it doesn't though contact me and i'll try add support)*
+* Any vehicle that is based on `prop_vehicle_jeep`, `prop_vehicle_jeep_old`, `prop_vehicle_airboat` and `prop_vehicle_prisoner_pod`.
+* [TDMCars](https://steamcommunity.com/sharedfiles/filedetails/?id=140550510)
+* [LoneWolfie Cars](https://steamcommunity.com/workshop/filedetails/?id=221591331)
+* [SCars](https://steamcommunity.com/workshop/filedetails/?id=149640069)
+* [[simfphys] LUA Vehicles - Base](https://steamcommunity.com/sharedfiles/filedetails/?id=771487490)
+* [[LFS] - Planes](https://steamcommunity.com/sharedfiles/filedetails/?id=1571918906)
+* [Star Wars Vehicles: Episode 1](https://steamcommunity.com/sharedfiles/filedetails/?id=495762961)
+* [Star Wars Vehicles: Episode 2](https://steamcommunity.com/sharedfiles/filedetails/?id=608632308)
+* [WAC Aircraft](https://steamcommunity.com/sharedfiles/filedetails/?id=199107624) *(Except Halo, RoflCopter & MH-X Stealthhawk)*
 
 [Workshop Version](https://steamcommunity.com/sharedfiles/filedetails/?id=864523561)
 
