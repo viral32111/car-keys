@@ -46,7 +46,7 @@ sound.Add({
 hook.Add("Think", "carKeysVersionChecker", function()
 	http.Fetch("https://api.github.com/repos/viral32111/car-keys/commits", function(body, size, headers, code)
 		local response = util.JSONToTable(body)
-		local latestCommit = string.sub(response[1]["sha"], 0, 7)
+		local latestCommit = string.sub(response[2]["sha"], 0, 7)
 
 		if (latestCommit != currentCommit) then
 			MsgC(Color(255, 0, 0), "[Car Keys] This addon is out of date! Please consider downloading the latest update for the best features and bug fixes.\n")
