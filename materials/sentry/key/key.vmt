@@ -1,4 +1,4 @@
-"VertexlitGeneric"
+"UnlitGeneric"
 {
 	"$basetexture" "sentry/key/key"
 }
