@@ -16,7 +16,7 @@ include("autorun/shared/sh_carkeys_config.lua") -- Include our configuration fil
 
 -- Physgun pickup on vehicle
 hook.Add("PhysgunPickup", "carKeysVehiclePickup", function(ply, ent)
-	if (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) then return end -- Stop execution if vehicle is invalid.
+	if ent:GetNWBool("carkeysSupported") then elseif (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) then return end -- Stop execution if vehicle is invalid.
 
 	local owner = ent:GetNWEntity("carKeysVehicleOwner") -- Get the vehicle owner
 

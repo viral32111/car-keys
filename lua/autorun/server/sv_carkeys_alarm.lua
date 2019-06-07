@@ -13,22 +13,29 @@ limitations under the License.
 ---------------------------------------------------------------------------]]
 
 include("autorun/shared/sh_carkeys_config.lua") -- Include our configuration file.
-
+include("autorun/simfphyshornalarm.lua") -- Include simfphy horn thing
+-- Add the alarm sound file.
+sound.Add({
+	name = "carKeysAlarmSound",
+	channel = CHAN_STATIC,
+	volume = 0.4, -- Fuck that alarm was loud.
+	level = 80,
+	sound = "carkeys/car_alarm.wav"
+})
 -- Vehicle takes damage
 hook.Add("EntityTakeDamage", "carKeysVehicleDamaged", function(ent, dmg)
-	if (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (carKeysVehicles[ent:GetClass()].alarm == false) then return end -- Stop execution if vehicle is invalid.
+	if ent:GetNWBool("carkeysSupported") then elseif (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (carKeysVehicles[ent:GetClass()].alarm == false) then return end -- Stop execution if vehicle is invalid.
 
 	if (ent:GetNWBool("carKeysVehicleLocked") and ent:GetNWEntity("carKeysVehicleOwner") != NULL) then
-		if (timer.Exists("carKeysDamageTimer" .. ent:EntIndex())) then -- Does the loop timer already exist?
-			return -- Stop execution.
-		else
-			timer.Create("carKeysDamageTimer" .. ent:EntIndex(), 96, 1, function() end) -- Create the loop timer.
+
+		if not ent:GetNWBool("carKeysVehicleAlarm") then
+			ent:SetNWBool("carKeysVehicleAlarm", true) -- Set the alarm currently playing to true.
+			ent:GetNWEntity("carKeysVehicleOwner"):SendLua("chat.AddText(Color(0, 180, 255), \"(Car Keys) \", Color(255, 255, 255), \"Your car has been damaged!\")") -- Send the vehicle owner a message saying their car is damaged.
 		end
 
-		ent:SetNWBool("carKeysVehicleAlarm", true) -- Set the alarm currently playing to true.
-		ent:GetNWEntity("carKeysVehicleOwner"):SendLua("chat.AddText(Color(0, 180, 255), \"(Car Keys) \", Color(255, 255, 255), \"Your car has been damaged!\")") -- Send the vehicle owner a message saying their car is damaged.
 
-		-- Alarm lights loop
+
+		--Alarm lights loop
 		if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then -- Is the vehicle a Simfphys vehicle?
 			timer.Create("carKeysAlarmLights" .. ent:EntIndex(), 2, 48, function() -- Create a timer that turns on and off lights on a loop.
 				if (ent:IsValid()) then -- Is the entity still valid?
@@ -36,37 +43,43 @@ hook.Add("EntityTakeDamage", "carKeysVehicleDamaged", function(ent, dmg)
 				else
 					timer.Remove("carKeysAlarmLights" .. ent:EntIndex()) -- Remove light timer.
 				end
-				timer.Simple(1, function() -- After one second, turn the lights off.
+				timer.Simple(0.8, function() -- After one.8th(spit noise) second, turn the lights off.
 					if (ent:IsValid()) then -- Is the entity still valid?
 						ent:SetLightsEnabled(false) -- Turn the Simfphys lights off.
+						
 					else
 						timer.Remove("carKeysAlarmLights" .. ent:EntIndex()) -- Remove light timer.
 					end
 				end)
 			end)
 		end
+		
+
 
 		-- Alarm sound loop
-		ent:EmitSound("carKeysAlarmSound") -- Start playing the alarm sound.
-		timer.Create("carKeysLoopAlarm" .. ent:EntIndex(), 8, 12, function() -- Create a timer for looping the alarm.
-			if (ent:IsValid()) then -- Is the entity still valid?
-				ent:EmitSound("carKeysAlarmSound") -- Start playing the alarm sound.
+		
+		if ent:GetNWBool("carKeysVehicleAlarm") == true then
+			if ent:GetNWBool("carkeysCustomAlarm") then
+				ent:EmitSound(ent:GetNWString("carkeysCAlarmSound"))
 			else
-				ent:SetNWBool("carKeysVehicleAlarm", false) -- Set the alarm currently playing to false.
-				timer.Remove("carKeysLoopAlarm" .. ent:EntIndex()) -- Remove alarm timer.
+				ent:EmitSound("carKeysAlarmSound")
 			end
-		end)
+			net.Start( "simfphys_turnsignal" )
+			net.WriteEntity( ent )
+			net.WriteInt( 1, 32 )
+			net.Broadcast()
+		end-- the else statement would never run as this code is run only when the vehicle is damaged and then alarm on..
 	end
 end)
 
 -- Stop alarm when vehicle is removed
 hook.Add("EntityRemoved", "carKeysVehicleRemoved", function(ent)
-	if (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (carKeysVehicles[ent:GetClass()].alarm == false) then return end -- Stop execution if vehicle is invalid.
-
-	if (ent:GetNWBool("carKeysVehicleAlarm")) then -- Is the alarm currently playing?
-		timer.Remove("carKeysLoopAlarm" .. ent:EntIndex()) -- Remove alarm timer.
-		timer.Remove("carKeysAlarmLights" .. ent:EntIndex()) -- Remove light timer.
-		ent:StopSound("carKeysAlarmSound") -- Stop alarm sound on vehicle.
-		ent:SetNWBool("carKeysVehicleAlarm", false) -- Set the alarm currently playing to false.
-	end
+	ent:CallOnRemove( "carkeysAlarmEnd", function( ent ) if ent:GetNWBool("carKeysVehicleAlarm") then 
+		ent:SetNWBool("carKeysVehicleAlarm", false)
+		ent:StopSound("carkeysAlarmSound")
+		ent:StopSound(ent:GetNWString("carkeysCAlarmSound"))
+		ent:SetNWBool("carkeysHorn", false)
+	end end )
 end)
+
+

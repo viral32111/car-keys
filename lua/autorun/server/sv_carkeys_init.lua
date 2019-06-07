@@ -33,15 +33,6 @@ resource.AddSingleFile("sound/carkeys/alarm.wav")
 -- Create an SQLite (sv.db) table for saving vehicle prices.
 sql.Query("CREATE TABLE carKeysVehiclePrices (EntityClass VARCHAR PRIMARY KEY, Price INT)")
 
--- Add the alarm sound file.
-sound.Add({
-	name = "carKeysAlarmSound",
-	channel = CHAN_STATIC,
-	volume = 0.4, -- Fuck that alarm was loud.
-	level = 80,
-	sound = "carkeys/alarm.wav"
-})
-
 -- Check for updates on GitHub.
 hook.Add("Think", "carKeysVersionChecker", function()
 	http.Fetch("https://api.github.com/repos/viral32111/car-keys/commits", function(body, size, headers, code)
