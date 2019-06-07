@@ -28,7 +28,7 @@ hook.Add("KeyPress", "carKeysVehicleMessage", function(ply, key)
 	if (key == IN_USE) then -- Is the player pressing their Use key?
 		local ent = ply:GetEyeTrace().Entity -- Get the entity the player is looking at.
 
-		if ent:GetNWBool("carkeysSupported") then elseif (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+		if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
 
 		if (ent:GetNWBool("carKeysVehicleLocked")) then -- Is this a valid Car Keys vehicle and is it locked?
 			ply:SendLua("chat.AddText(Color(26, 198, 255), \"(Car Keys) \", Color(255, 255, 255), \"This vehicle is locked, You cannot enter it.\")") -- Display a chat message saying the vehicle is locked.
