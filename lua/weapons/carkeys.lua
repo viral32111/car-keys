@@ -42,7 +42,7 @@ SWEP.Secondary.Ammo = "none"
 -- View Model & World Model
 SWEP.ViewModelFOV = 70
 SWEP.ViewModel = "models/sentry/pgkey.mdl"
-SWEP.WorldModel = ""
+SWEP.WorldModel = "models/sentry/pgkey.mdl"
 
 -- Switching when player runs out of ammo.
 SWEP.AutoSwitchTo = false
@@ -67,7 +67,7 @@ function SWEP:Reload()
 	local ply = self.Owner
 	local ent = ply:GetEyeTrace().Entity
 
-	if (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
 
 	local owner = ent:GetNWEntity("carKeysVehicleOwner")
 	local price = ent:GetNWInt("carKeysVehiclePrice")
@@ -97,14 +97,23 @@ function SWEP:Reload()
 			end
 
 			ent:SetNWBool("carKeysVehicleLocked", false)
+			if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
+				ent:UnLock() --uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked
+			end
 			ent:SetNWEntity("carKeysVehicleOwner", NULL)
 			ent:EmitSound("buttons/lightswitch2.wav")
 
-			if (ent:GetNWBool("carKeysVehicleAlarm")) then
-				timer.Remove("carKeysLoopAlarm" .. ent:EntIndex())
+			if ent:GetNWBool("carKeysVehicleAlarm") then
 				timer.Remove("carKeysAlarmLights" .. ent:EntIndex())
 				ent:StopSound("carKeysAlarmSound")
+				ent:StopSound(ent:GetNWString("carkeysCAlarmSound"))
 				ent:SetNWBool("carKeysVehicleAlarm", false)
+				if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
+					net.Start( "simfphys_turnsignal" )
+					net.WriteEntity( ent )
+					net.WriteInt( 0, 32 )
+					net.Broadcast()
+				end
 			end
 		else
 			ply:SendLua("chat.AddText(Color(26, 198, 255), \"(Car Keys) \", Color(255, 255, 255), \"You can't purchase this vehicle, it's owned by \" .. LocalPlayer():GetEyeTrace().Entity:GetNWEntity(\"carKeysVehicleOwner\"):Nick() .. \".\")")
@@ -120,7 +129,7 @@ function SWEP:PrimaryAttack()
 	local ply = self.Owner
 	local ent = ply:GetEyeTrace().Entity
 
-	if (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
 
 	local owner = ent:GetNWEntity("carKeysVehicleOwner")
 	local price = ent:GetNWInt("carKeysVehiclePrice")
@@ -128,6 +137,9 @@ function SWEP:PrimaryAttack()
 	if (owner != NULL) and (owner:UniqueID() == ply:UniqueID()) then
 		ent:EmitSound("npc/metropolice/gear" .. math.floor(math.Rand(1, 7)) .. ".wav")
 		ent:SetNWBool("carKeysVehicleLocked", true)
+		if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
+			ent:Lock() --uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked
+		end
 
 		if not (ent:WaterLevel() >= 1) then
 			timer.Simple(0.5, function()
@@ -155,24 +167,31 @@ function SWEP:SecondaryAttack()
 	local ply = self.Owner
 	local ent = ply:GetEyeTrace().Entity
 
-	if (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
 
 	local owner = ent:GetNWEntity("carKeysVehicleOwner")
 	local price = ent:GetNWInt("carKeysVehiclePrice")
 
 	if (owner != NULL) and (owner:UniqueID() == ply:UniqueID()) then
-		if (ent:GetNWBool("carKeysVehicleAlarm")) then
+		if ent:GetNWBool("carKeysVehicleAlarm") == true then
 			ent:SetNWBool("carKeysVehicleAlarm", false)
 			ent:StopSound("carKeysAlarmSound")
-
-			timer.Remove("carKeysLoopAlarm" .. ent:EntIndex())
+			ent:StopSound(ent:GetNWString("carkeysCAlarmSound"))
+			if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
+				net.Start( "simfphys_turnsignal" )
+				net.WriteEntity( ent )
+				net.WriteInt( 0, 32 )
+				net.Broadcast()
+			end
 			timer.Remove("carKeysAlarmLights" .. ent:EntIndex())
-
 			ply:SendLua("chat.AddText(Color(26, 198, 255), \"(Car Keys) \", Color(255, 255, 255), \"Car alarm stopped.\")")
 		end
 
 		ent:EmitSound("npc/metropolice/gear" .. math.floor(math.Rand(1, 7)) .. ".wav")
 		ent:SetNWBool("carKeysVehicleLocked", false)
+		if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
+			ent:UnLock() --uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked
+		end
 	else
 		ply:SendLua("chat.AddText(Color(26, 198, 255), \"(Car Keys) \", Color(255, 255, 255), \"You cannot unlock this vehicle, you don't own it.\")")
 		ent:EmitSound("doors/handle_pushbar_locked1.wav")

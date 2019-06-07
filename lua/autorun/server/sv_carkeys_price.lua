@@ -16,7 +16,7 @@ include("autorun/shared/sh_carkeys_config.lua") -- Include our configuration fil
 
 -- Set the vehicle price and owner whenever its spawned.
 hook.Add("PlayerSpawnedVehicle", "carKeysPlayerSpawnedVehicle", function(ply, ent)
-	if (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) then return end -- Stop execution if vehicle is invalid.
+	if ent:GetNWBool("carkeysSupported") then elseif (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) then return end -- Stop execution if vehicle is invalid.
 
 	ent:SetNWEntity("carKeysVehicleOwner", ply) -- Set the vehicle owner to the player that spawned it.
 
