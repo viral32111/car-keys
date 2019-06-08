@@ -32,7 +32,7 @@ __Changes between the Official and Unofficial fork:__
 
 __Example of adding support with the NWBool:__ 
 *code snippet is from my own GTAV LFS Avenger*
-
+```
 sound.Add({ -- Create the custom alarm sound
 	name = "avengeralarm",
 	channel = CHAN_STATIC,
@@ -42,13 +42,6 @@ sound.Add({ -- Create the custom alarm sound
 })
 
 function ENT:RunOnSpawn() -- called when the vehicle is spawned
-  -- simfphys is already supported in the carkeys config so you dont need the "carkeysSupported" bool!!!!!1!!!1! 2ewdasdf
-  -- that is only needed on vehicles that Class names are not in the config file already. 
-  -- (aka all LFS/WAC/SCars outside of their base addons as their Class name is diffrent for each of them!)
-  -- You can find your vehicles class name if you let it kill you. My LFS Plane will say lunasflightschool_gtavenger while
-  -- all simfphys vehicles will say gmod_sent_vehicle_fphysics_base. LFS/WAC/SCars or any other vehicle entity that is      
-  -- not consistant with their class name across vehicles of the same type will most likely need the NWBool unless
-  -- manually added in the car keys config file by either a server owner, a player, or Viral32111. 
 	self:SetNWBool("carkeysSupported", true)
 	self:SetNWBool("carkeysCustomAlarm", true)
 	self:SetNWFloat("carkeysForwardPos", 200 )
@@ -57,7 +50,7 @@ function ENT:RunOnSpawn() -- called when the vehicle is spawned
 	self:SetNWString("carkeysCAlarmSound", "avengeralarm")
   -- the string MUST BE THE SAME NAME as specified in sound.add!!!
 end
-
+```
 __Video of my plane:__ 
 
 __Is it usefull?:__ 
@@ -68,8 +61,15 @@ Hopfully more vehicle creators will add support for this addon themselves withou
 The NWBool "carKeysVehicleLocked" can be used to find if the vehicle is locked
 The NWBool "carKeysVehicleAlarm" can be used to find if the vehicles alarm is playing
 Ex) *this code snippet is of a Simfphys vehicle with support for this addon*
-
+```
   OnSpawn = function(ent)
+  -- simfphys is already supported in the carkeys config so you dont need the "carkeysSupported" bool!!!!!1!!!1! 2ewdasdf
+  -- that is only needed on vehicles that Class names are not in the config file already. 
+  -- (aka all LFS/WAC/SCars outside of their base addons as their Class name is diffrent for each of them!)
+  -- You can find your vehicles class name if you let it kill you. My LFS Plane will say lunasflightschool_gtavenger while
+  -- all simfphys vehicles will say gmod_sent_vehicle_fphysics_base. LFS/WAC/SCars or any other vehicle entity that is      
+  -- not consistant with their class name across vehicles of the same type will most likely need the NWBool unless
+  -- manually added in the car keys config file by either a server owner, a player, or Viral32111. 
     ent:SetNWBool("carkeysCustomAlarm", true)
     ent:SetNWString("carkeysCAlarmSound", "GTAVmeephornalarm")
     local IsLocked = ent:GetNWBool("carKeysVehicleLocked")
@@ -95,7 +95,7 @@ Ex) *this code snippet is of a Simfphys vehicle with support for this addon*
     level = 80,
     sound = "meephorn_alarm.wav"
   })
-  
+```
   *THAT CODE SPECIFIED A CUSTOM ALARM, CUSTOM ALARM SOUND, IF LOCKED CLOSE DOOR ANIMATION, AND IF ALARM CONSTANTLY STALL AND RESTART THE CAR EVERY TENTH OF A SECOND JUST BECAUSE IDK*
   
 Now you can see this allows for vehicle creators much more customisation and intigration with Car Keys!
