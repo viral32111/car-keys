@@ -11,6 +11,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
+--TOS of the license said i must point out all my code changes... i think?
+--I will point them out by signing my comments with -nak for NotAKidoS
 
 include("autorun/shared/sh_carkeys_config.lua") -- Include our configuration file.
 
@@ -41,8 +43,9 @@ SWEP.Secondary.Ammo = "none"
 
 -- View Model & World Model
 SWEP.ViewModelFOV = 70
+SWEP.UseHands = false
 SWEP.ViewModel = "models/sentry/pgkey.mdl"
-SWEP.WorldModel = "models/sentry/pgkey.mdl"
+SWEP.WorldModel = "models/sentry/w_pgkey.mdl" --nak world model so the swep can be dropped properly and be in hand in 3rd person
 
 -- Switching when player runs out of ammo.
 SWEP.AutoSwitchTo = false
@@ -67,7 +70,7 @@ function SWEP:Reload()
 	local ply = self.Owner
 	local ent = ply:GetEyeTrace().Entity
 
-	if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	if not IsSupported(ent, ply) then return end --nak look at bottom of file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier
 
 	local owner = ent:GetNWEntity("carKeysVehicleOwner")
 	local price = ent:GetNWInt("carKeysVehiclePrice")
@@ -98,7 +101,7 @@ function SWEP:Reload()
 
 			ent:SetNWBool("carKeysVehicleLocked", false)
 			if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
-				ent:UnLock() --uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked
+				ent:UnLock() --nak uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked. Sent an issue report to Luna about simfphys remote control bypassing the built in simfphys lock function so hopfully thats fixed by them..
 			end
 			ent:SetNWEntity("carKeysVehicleOwner", NULL)
 			ent:EmitSound("buttons/lightswitch2.wav")
@@ -129,7 +132,7 @@ function SWEP:PrimaryAttack()
 	local ply = self.Owner
 	local ent = ply:GetEyeTrace().Entity
 
-	if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	if not IsSupported(ent, ply) then return end --nak look at bottom of file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier
 
 	local owner = ent:GetNWEntity("carKeysVehicleOwner")
 	local price = ent:GetNWInt("carKeysVehiclePrice")
@@ -138,7 +141,7 @@ function SWEP:PrimaryAttack()
 		ent:EmitSound("npc/metropolice/gear" .. math.floor(math.Rand(1, 7)) .. ".wav")
 		ent:SetNWBool("carKeysVehicleLocked", true)
 		if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
-			ent:Lock() --uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked
+			ent:Lock() --nak uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked. 
 		end
 
 		if not (ent:WaterLevel() >= 1) then
@@ -166,9 +169,9 @@ function SWEP:SecondaryAttack()
 
 	local ply = self.Owner
 	local ent = ply:GetEyeTrace().Entity
-
-	if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
-
+	
+	if not IsSupported(ent, ply) then return end --nak look at bottom of file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier
+	
 	local owner = ent:GetNWEntity("carKeysVehicleOwner")
 	local price = ent:GetNWInt("carKeysVehiclePrice")
 
@@ -176,8 +179,8 @@ function SWEP:SecondaryAttack()
 		if ent:GetNWBool("carKeysVehicleAlarm") == true then
 			ent:SetNWBool("carKeysVehicleAlarm", false)
 			ent:StopSound("carKeysAlarmSound")
-			ent:StopSound(ent:GetNWString("carkeysCAlarmSound"))
-			if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
+			ent:StopSound(ent:GetNWString("carkeysCAlarmSound")) --nak Stop custom alarm sound if possible
+			if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then --nak check if simfphys and then remove blinkers
 				net.Start( "simfphys_turnsignal" )
 				net.WriteEntity( ent )
 				net.WriteInt( 0, 32 )
@@ -190,7 +193,7 @@ function SWEP:SecondaryAttack()
 		ent:EmitSound("npc/metropolice/gear" .. math.floor(math.Rand(1, 7)) .. ".wav")
 		ent:SetNWBool("carKeysVehicleLocked", false)
 		if (ent:GetClass() == "gmod_sent_vehicle_fphysics_base") then 
-			ent:UnLock() --uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked
+			ent:UnLock() --nak uses the built in lock/unlock with simfphys to disable the wheels from letting you in the car even if locked. Simfphys RC remote still bypasses this.. hopfully Luna fixes it
 		end
 	else
 		ply:SendLua("chat.AddText(Color(26, 198, 255), \"(Car Keys) \", Color(255, 255, 255), \"You cannot unlock this vehicle, you don't own it.\")")
@@ -205,13 +208,20 @@ function SWEP:SecondaryAttack()
 end
 
 -- Sets the view model position
+
 function SWEP:GetViewModelPosition(position, angle)
 	local owner = self.Owner
 
 	if (IsValid(owner)) then
-		position = position + owner:GetRight()*11 + owner:GetAimVector()*21
+		position = position + owner:GetUp()*-1 + owner:GetRight()*9 + owner:GetAimVector()*20
 	end
-
+	--naknaknak this code will move the key but not scale to the players screen. edit: could be wrong idk
+	--[[		
+	local ply = LocalPlayer()
+	local X = ScrW()
+	local Y = ScrH()
+	-- example of getting the player on the client and their screen size, i dont have a clue currently how to impliment it..
+	--]]
 	angle:RotateAroundAxis(angle:Up(), 210)
 	angle:RotateAroundAxis(angle:Right(), 220)
 	angle:RotateAroundAxis(angle:Forward(), 10)
@@ -224,8 +234,9 @@ function SWEP:DrawHUD()
 	local ply = LocalPlayer() -- Get the player
 	local ent = ply:GetEyeTrace().Entity -- Get the entity the player is looking at
 	
-	if (ent == nil or ent == NULL) or (ply:InVehicle()) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, the player is in a vehicle, or player is more than 150 units away.
-
+	if not IsSupported(ent, ply) then return end --nak look at bottom of file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier
+	--nakkkkk theres so many of these checks for if its a supported vehicle and if its far away... should be a function by now :L EDIT: made it a function <O/
+	
 	local owner = ent:GetNWEntity("carKeysVehicleOwner") -- Get the vehicle's owner
 	local price = ent:GetNWInt("carKeysVehiclePrice") -- Get the vehicle's price
 
@@ -246,4 +257,14 @@ function SWEP:DrawHUD()
 			draw.DrawText("Press R to acquire it", "TargetIDSmall", ScrW()/2, ScrH()/2+35, Color(255, 255, 255), TEXT_ALIGN_CENTER)
 		end
 	end
+end
+
+--NAK made the multiple checks if supported into a function so i dont need to repeat copy paste my patches
+function IsSupported(ent, ply)
+	if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	return true -- if the vehicle passes the check return true.. (im learning new tricks in lua yaaaaaaaaa boi)
+end
+function IsCarKeyable(ent, ply)
+	if ent:GetNWBool("carkeysSupported") then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	return true -- This function is the same as above but with no distance. For checks related to entering vehicle not lock/unlock with the swep
 end

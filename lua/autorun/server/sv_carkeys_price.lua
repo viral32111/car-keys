@@ -11,12 +11,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
+--Me, NotAKidoS is signing all code changes by me with --nak to comply with the license
 
 include("autorun/shared/sh_carkeys_config.lua") -- Include our configuration file.
 
 -- Set the vehicle price and owner whenever its spawned.
 hook.Add("PlayerSpawnedVehicle", "carKeysPlayerSpawnedVehicle", function(ply, ent)
-	if ent:GetNWBool("carkeysSupported") then elseif (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) then return end -- Stop execution if vehicle is invalid.
+	if not IsCarKeyable(ent, ply) then return end --nak look at bottom of carkeys.lua file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier. This checks if the vehicle is supported or not else stop code.
 
 	ent:SetNWEntity("carKeysVehicleOwner", ply) -- Set the vehicle owner to the player that spawned it.
 
@@ -33,8 +34,9 @@ end)
 
 -- Set the vehicle price and owner whenever its spawned. (SENT Spawned hook is required because of WAC)
 hook.Add("PlayerSpawnedSENT", "carKeysPlayerSpawnedEntity", function(ply, ent)
-	if (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (engine.ActiveGamemode() != "darkrp") then return end -- Stop execution if vehicle is invalid or we aren't running DarkRP.
-		
+	if not IsCarKeyable(ent, ply) then return end --nak look at bottom of carkeys.lua file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier. This checks if the vehicle is supported or not else stop code.
+	--nak oh hey i fixed the bug when spawning a vehicle with the supported bool instead of config that it didnt belong to you.. congrats me on fixing bugs i created :P
+	
 	ent:SetNWEntity("carKeysVehicleOwner", ply) -- Set the vehicle owner to the player that spawned it.
 
 	if (engine.ActiveGamemode() == "darkrp") then
