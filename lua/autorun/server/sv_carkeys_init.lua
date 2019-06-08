@@ -11,6 +11,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
+--Me, NotAKidoS is signing all code changes by me with --nak to comply with the license
 
 -- Current commit of the addon.
 local currentCommit = "a7735e5"
@@ -29,6 +30,7 @@ resource.AddSingleFile("models/sentry/pgkey.dx80.vtx")
 resource.AddSingleFile("models/sentry/pgkey.dx90.vtx")
 resource.AddSingleFile("sound/carkeys/lock.wav")
 resource.AddSingleFile("sound/carkeys/alarm.wav")
+resource.AddSingleFile("sound/carkeys/car_alarm.wav") --nak Add new looped wav sound to queue as well. Original alarm sound is still in the addon though
 
 -- Create an SQLite (sv.db) table for saving vehicle prices.
 sql.Query("CREATE TABLE carKeysVehiclePrices (EntityClass VARCHAR PRIMARY KEY, Price INT)")

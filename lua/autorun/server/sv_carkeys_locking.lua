@@ -11,12 +11,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ---------------------------------------------------------------------------]]
+--Me, NotAKidoS is signing all code changes by me with --nak to comply with the license
 
 include("autorun/shared/sh_carkeys_config.lua") -- Include our configuration file.
 
 -- Prevents the player from entering a locked vehicle.
 hook.Add("PlayerUse", "carKeysUseVehicle", function(ply, ent)
-	if ent:GetNWBool("carkeysSupported") then elseif (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	if not IsCarKeyable(ent, ply) then return end --nak look at bottom of carkeys.lua file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier
 
 	if (ent:GetNWBool("carKeysVehicleLocked")) then -- Is the vehicle locked?
 		return false -- Stop the player from entering the car.
@@ -28,8 +29,9 @@ hook.Add("KeyPress", "carKeysVehicleMessage", function(ply, key)
 	if (key == IN_USE) then -- Is the player pressing their Use key?
 		local ent = ply:GetEyeTrace().Entity -- Get the entity the player is looking at.
 
-		if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
-
+		if not IsSupported(ent, ply) then return end --nak look at bottom of carkeys.lua file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier
+		--nak using IsSupported instead of IsCarKeyable because say you hit E on a long vehicle away from the doors then why give the alert. Makes sense on larger vehicles like box trucks when opening/closing things. Code above still keeps you out of the vehicle though
+		
 		if (ent:GetNWBool("carKeysVehicleLocked")) then -- Is this a valid Car Keys vehicle and is it locked?
 			ply:SendLua("chat.AddText(Color(26, 198, 255), \"(Car Keys) \", Color(255, 255, 255), \"This vehicle is locked, You cannot enter it.\")") -- Display a chat message saying the vehicle is locked.
 			ply:EmitSound("doors/handle_pushbar_locked1.wav") -- Play a locked sound.
