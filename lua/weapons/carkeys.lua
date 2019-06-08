@@ -261,10 +261,10 @@ end
 
 --NAK made the multiple checks if supported into a function so i dont need to repeat copy paste my patches
 function IsSupported(ent, ply)
-	if ent:GetNWBool("carkeysSupported") and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	if ent:GetNWBool("carkeysSupported") or not (ply:InVehicle()) and (ply:GetPos():Distance( (ent:GetPos() + ent:GetForward()*ent:GetNWFloat("carkeysForwardPos") + ent:GetRight()*ent:GetNWFloat("carkeysRightPos") + ent:GetUp()*ent:GetNWFloat("carkeysUpPos") ) ) <= 150) or (ply:InVehicle()) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:GetPos():Distance(ent:GetPos()) >= 150) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
 	return true -- if the vehicle passes the check return true.. (im learning new tricks in lua yaaaaaaaaa boi)
 end
 function IsCarKeyable(ent, ply)
-	if ent:GetNWBool("carkeysSupported") then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
+	if ent:GetNWBool("carkeysSupported") or not (ply:InVehicle()) then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) or (ply:InVehicle()) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
 	return true -- This function is the same as above but with no distance. For checks related to entering vehicle not lock/unlock with the swep
 end
