@@ -52,6 +52,7 @@ function ENT:RunOnSpawn() -- called when the vehicle is spawned
 end
 ```
 __Video of my plane:__ 
+https://youtu.be/9yGFbVC6_PI
 
 __Is it usefull?:__ 
 YEA, These bools allow vehicle creators to add support for their custom entities without needing to go to Viral32111 or having players edit their supported car keys config list
