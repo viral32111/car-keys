@@ -26,7 +26,7 @@ sound.Add({
 
 -- Vehicle takes damage (actually checking for ALL entitys being damaged, then if it is supported and locked.)
 hook.Add("EntityTakeDamage", "carKeysVehicleDamaged", function(ent, dmg)
-	if not IsCarkeyable(ent, ply) then return end --nak look at bottom of carkeys.lua file for function. turned the multiple copy paste code checks into a function to make allowing supported vehicles MUCH easier. This checks if the vehicle is supported or not.
+	if ent:GetNWBool("carkeysSupported") then elseif (ent == nil or ent == NULL) or (carKeysVehicles[ent:GetClass()] == nil) or (carKeysVehicles[ent:GetClass()].valid == false) then return end  -- Stop execution if vehicle is invalid, or player is more than 150 units away.
 	-- check if alarm is already playing and break code. fixes bug when 2 locked vehicles set each others alarm off, and create a third alarm that is not possible to remove without clearing the map.
 	if ent:GetNWBool("carKeysVehicleAlarm") then return end
 	-- check if locked and owner is not no one
@@ -92,5 +92,3 @@ hook.Add("EntityRemoved", "carKeysVehicleRemoved", function(ent) --nak removed e
 		ent:StopSound(ent:GetNWString("carkeysCAlarmSound")) -- stop custom alarm if possible
 	end
 end)
-
-
