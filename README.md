@@ -23,4 +23,4 @@ __Currently compatible with:__ *(Should work with almost every car in the game, 
 
 [Workshop Version](https://steamcommunity.com/sharedfiles/filedetails/?id=864523561)
 
-###### [Copyright 2017-2019 viral32111](LICENCE.txt)
+###### [Copyright 2017-2020 viral32111](LICENCE.txt)
