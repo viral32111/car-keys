@@ -212,4 +212,18 @@ carKeysVehicles = {
 	-- WAC Community 7 (https://steamcommunity.com/sharedfiles/filedetails/?id=162016658)
 	["wac_pl_dh98"] = {valid=true, alarm=false},
 	["wac_pl_f86"] = {valid=true, alarm=false},
+
+	-- [LFS] Jedi Starfighters (https://steamcommunity.com/sharedfiles/filedetails/?id=1580175017)
+	["lunasflightschool_delta7_adi"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_ahsoka"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_anakin"]={valid=true,alarm=false},
+	["lunasflightschool_eta2_anakin"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_barriss"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_kit"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_luminara"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_mace"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_obiwan"]={valid=true,alarm=false},
+	["lunasflightschool_eta2_obiwan"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_plo"]={valid=true,alarm=false},
+	["lunasflightschool_delta7_saesee"]={valid=true,alarm=false}
 }
