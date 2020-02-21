@@ -1,6 +1,6 @@
 # Car Keys
 
-**Project started: 15/02/2017, Last updated: 20/05/2019**
+**Project started: 15/02/2017, Last updated: 21/02/2020**
 
 This adds a Car Keys SWEP to Garry's Mod which lets players lock, unlock, buy and sell vehicles.
 
@@ -20,6 +20,8 @@ __Currently compatible with:__ *(Should work with almost every car in the game, 
 * [Star Wars Vehicles: Episode 1](https://steamcommunity.com/sharedfiles/filedetails/?id=495762961)
 * [Star Wars Vehicles: Episode 2](https://steamcommunity.com/sharedfiles/filedetails/?id=608632308)
 * [WAC Aircraft](https://steamcommunity.com/sharedfiles/filedetails/?id=199107624) *(Except Halo, RoflCopter & MH-X Stealthhawk)*
+
+Credit goes to [Morretz](http://steamcommunity.com/profiles/76561198204059269) for creating the [key model](https://steamcommunity.com/sharedfiles/filedetails/?id=704317952), he graciously let me use it in this addon. The original texture was edited by me however.
 
 [Workshop Version](https://steamcommunity.com/sharedfiles/filedetails/?id=864523561)
 
