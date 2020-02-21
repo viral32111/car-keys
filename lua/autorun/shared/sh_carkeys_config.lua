@@ -225,5 +225,12 @@ carKeysVehicles = {
 	["lunasflightschool_delta7_obiwan"]={valid=true,alarm=false},
 	["lunasflightschool_eta2_obiwan"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_plo"]={valid=true,alarm=false},
-	["lunasflightschool_delta7_saesee"]={valid=true,alarm=false}
+	["lunasflightschool_delta7_saesee"]={valid=true,alarm=false},
+
+	-- SW Vehicles : TIE Fighters [LFS] (https://steamcommunity.com/sharedfiles/filedetails/?id=1580978413)
+	["kingpommes_tie_advanced"]={valid=true,alarm=false},
+	["kingpommes_tie_defender"]={valid=true,alarm=false},
+	["kingpommes_tie_fighter"]={valid=true,alarm=false},
+	["kingpommes_tie_interceptor"]={valid=true,alarm=false},
+	["kingpommes_tie_interceptorr"]={valid=true,alarm=false},
 }
