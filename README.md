@@ -20,6 +20,8 @@ __Currently compatible with:__ *(Should work with almost every car in the game, 
 * [Star Wars Vehicles: Episode 1](https://steamcommunity.com/sharedfiles/filedetails/?id=495762961)
 * [Star Wars Vehicles: Episode 2](https://steamcommunity.com/sharedfiles/filedetails/?id=608632308)
 * [WAC Aircraft](https://steamcommunity.com/sharedfiles/filedetails/?id=199107624) *(Except Halo, RoflCopter & MH-X Stealthhawk)*
+* [[LFS] Jedi Starfighters](https://steamcommunity.com/sharedfiles/filedetails/?id=1580175017)
+* [SW Vehicles : TIE Fighters [LFS]](https://steamcommunity.com/sharedfiles/filedetails/?id=1580978413)
 
 Credit goes to [Morretz](http://steamcommunity.com/profiles/76561198204059269) for creating the [key model](https://steamcommunity.com/sharedfiles/filedetails/?id=704317952), he graciously let me use it in this addon. The original texture was edited by me however.
 
