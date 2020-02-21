@@ -13,7 +13,7 @@ limitations under the License.
 ---------------------------------------------------------------------------]]
 
 -- Current commit of the addon.
-local currentCommit = "3a93d36"
+local currentCommit = "783e25e"
 
 -- Add config file to client download queue.
 AddCSLuaFile("autorun/shared/sh_carkeys_config.lua")
