@@ -213,24 +213,125 @@ carKeysVehicles = {
 	["wac_pl_dh98"] = {valid=true, alarm=false},
 	["wac_pl_f86"] = {valid=true, alarm=false},
 
-	-- [LFS] Jedi Starfighters (https://steamcommunity.com/sharedfiles/filedetails/?id=1580175017)
+	--[[
+	https://steamcommunity.com/sharedfiles/filedetails/?id=947544869
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1580978413
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1258744627
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1580666744
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1716586634
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1580173688
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1739279660
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1797733425
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1923261937
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1580175325
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1721058603
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1599748363
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1964419680
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1580173141
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1731090054
+	https://steamcommunity.com/sharedfiles/filedetails/?id=817850162
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1894613649
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1746991793
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1747763643
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1699081112
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1755725700
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1696173191
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1693558389
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1655057679
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1580175017
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1573034515
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1512369734
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1322584182
+	https://steamcommunity.com/sharedfiles/filedetails/?id=2003539477
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1527897309
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1910572465
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1579376621
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1495015851
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1406438579
+	https://steamcommunity.com/sharedfiles/filedetails/?id=1626356763
+	--]]
+	["lunasflightschool_tieinterceptor"]={valid=true,alarm=false},
+	["lunasflightschool_falcon"]={valid=true,alarm=false},
+	["lfs_scifi_shuttle"]={valid=true,alarm=false},
+	["tiesilencer_lfs"]={valid=true,alarm=false},
+	["lunasflightschool_awing"]={valid=true,alarm=false},
+	["lunasflightschool_eta2"]={valid=true,alarm=false},
+	["kingpommes_lfs_tie_advanced"]={valid=true,alarm=false},
+	["kingpommes_lfs_tie_defender"]={valid=true,alarm=false},
+	["kingpommes_lfs_tie_fighter"]={valid=true,alarm=false},
+	["kingpommes_lfs_tie_interceptor"]={valid=true,alarm=false},
+	["kingpommes_lfs_tie_interceptorr"]={valid=true,alarm=false},
+	["lfs_vanilla_vwing"]={valid=true,alarm=false},
+	["lfs_vanilla_azureangel"]={valid=true,alarm=false},
+	["lfs_vanilla_nushuttle"]={valid=true,alarm=false},
+	["lfs_vanilla_tiebomber"]={valid=true,alarm=false},
+	["lfs_vanilla_uwing"]={valid=true,alarm=false},
+	["lfs_vanilla_v19"]={valid=true,alarm=false},
+	["lunasflightschool_bf2hyenabomber"]={valid=true,alarm=false},
+	["lunasflightschool_cgihyenabomber"]={valid=true,alarm=false},
+	["lfs_awing"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_adi"]={valid=true,alarm=false},
+	["lfs_advdroid"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_ahsoka"]={valid=true,alarm=false},
+	["lfs_alligator"]={valid=true,alarm=false},
+	[""]={valid=true,alarm=false},
+	["lunasflightschool_alpha3vwing"]={valid=true,alarm=false},
+	["lfs_alphag"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_anakin"]={valid=true,alarm=false},
 	["lunasflightschool_eta2_anakin"]={valid=true,alarm=false},
+	["lfs_antiairturret"]={valid=true,alarm=false},
+	["lfs_antiinfantryturret"]={valid=true,alarm=false},
+	["lfs_antivehicleturret"]={valid=true,alarm=false},
+	["lunasflightschool_laatgunshiparcblue"]={valid=true,alarm=false},
+	["lunasflightschool_laatgunshiparcgreen"]={valid=true,alarm=false},
+	["lunasflightschool_laatgunshiparcred"]={valid=true,alarm=false},
+	["lunasflightschool_arc170_alternate"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_barriss"]={valid=true,alarm=false},
+	["lfs_soulless"]={valid=true,alarm=false},
+	["lunasflightschool_cgi_laat"]={valid=true,alarm=false},
+	["lunasflightschool_cgi_laat_coruscant"]={valid=true,alarm=false},
+	["lfs_repcorvette1"]={valid=true,alarm=false},
+	["lfs_cr90"]={valid=true,alarm=false},
+	["lfs_spiral"]={valid=true,alarm=false},
+	["lfs_ebonhawk"]={valid=true,alarm=false},
+	["lfs_eta5"]={valid=true,alarm=false},
+	["lunasflightschool_geofighter"]={valid=true,alarm=false},
+	["lfs_havoc"]={valid=true,alarm=false},
+	["lfs_ig2000"]={valid=true,alarm=false},
+	["lunasflightschool_imp_dropship"]={valid=true,alarm=false},
+	["lfs_kimogila"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_kit"]={valid=true,alarm=false},
+	["lunasflightschool_laatgunshipblue"]={valid=true,alarm=false},
+	["lunasflightschool_laatgunshipgreen"]={valid=true,alarm=false},
+	["lunasflightschool_laatgunshipred"]={valid=true,alarm=false},
+	["lunasflightschool_lambda"]={valid=true,alarm=false},
+	["lfs_repcorvette2"]={valid=true,alarm=false},
+	["lfs_repcorvette3"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_luminara"]={valid=true,alarm=false},
+	["lfs_scyk"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_mace"]={valid=true,alarm=false},
+	["lfs_gauntlet"]={valid=true,alarm=false},
+	["lfs_geo"]={valid=true,alarm=false},
+	["lfs_nbt630"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_obiwan"]={valid=true,alarm=false},
 	["lunasflightschool_eta2_obiwan"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_plo"]={valid=true,alarm=false},
+	["lfs_portableturret"]={valid=true,alarm=false},
+	["lfs_r41"]={valid=true,alarm=false},
+	["lfs_repz95"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_saesee"]={valid=true,alarm=false},
-
-	-- SW Vehicles : TIE Fighters [LFS] (https://steamcommunity.com/sharedfiles/filedetails/?id=1580978413)
-	["kingpommes_tie_advanced"]={valid=true,alarm=false},
-	["kingpommes_tie_defender"]={valid=true,alarm=false},
-	["kingpommes_tie_fighter"]={valid=true,alarm=false},
-	["kingpommes_tie_interceptor"]={valid=true,alarm=false},
-	["kingpommes_tie_interceptorr"]={valid=true,alarm=false},
+	["lfs_skipray"]={valid=true,alarm=false},
+	["lunasflightschool_boba"]={valid=true,alarm=false},
+	["lunasflightschool_jango"]={valid=true,alarm=false},
+	["lfs_t42"]={valid=true,alarm=false},
+	["lfs_tie_avenger"]={valid=true,alarm=false},
+	["lfs_tie_droid"]={valid=true,alarm=false},
+	["lfs_tie_interdictor"]={valid=true,alarm=false},
+	["lfs_tie_oppressor"]={valid=true,alarm=false},
+	["lfs_tie_raptor"]={valid=true,alarm=false},
+	["lfs_tie_scout"]={valid=true,alarm=false},
+	["lunasflightschool_v19torrent"]={valid=true,alarm=false},
+	["lfs_vwing"]={valid=true,alarm=false},
+	["lfs_wwing"]={valid=true,alarm=false},
+	["lfs_z95"]={valid=true,alarm=false},
 }
