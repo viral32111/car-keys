@@ -58,6 +58,10 @@ To specifically set your language you can either:
 Set the convar `sv_carkeys_language` to the desired language locale, a list can be found [here](lua/carkeys/translations) (excluding the `.lua` extension).
 For example, if you want to set the server language to English (GB) you would set the convar `sv_carkeys_language en-gb`.
 
+## Compatibility
+
+This addon is potentially imcompatible with other similar addons that let players lock vehicles (VCMod Locking, DarkRP Keys, etc). It could also be incompatible with various prop protection addons.
+
 ## Developer Guide
 
 I've created this addon in such a way that making external addons for it should be relatively easy for the average programmer/developer.
