@@ -1,26 +1,74 @@
 --[[-------------------------------------------------------------------------
-Copyright 2017-2020 viral32111
+Car Keys - A SWEP that lets players lock, unlock, buy and sell vehicles.
+Copyright (C) 2017-2020 viral32111
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see https://www.gnu.org/licenses/.
 ---------------------------------------------------------------------------]]
 
-carKeysVehicles = {
-	-- Half-Life 2 (Any car based off this, TDMCars, LoneWolfie Cars, etc.)
-	["prop_vehicle_jeep"] = {valid=true, alarm=true},
-	["prop_vehicle_jeep_old"] = {valid=true, alarm=true},
-	["prop_vehicle_airboat"] = {valid=true, alarm=true},
-	["prop_vehicle_prisoner_pod"] = {valid=true, alarm=true},
+-- This informs me (viral32111) whenever you add support for a car yourself within the game. By leaving this enabled, I can use the data to add native support for the vehicles you had to add, credit will be given.
+carKeys.config.reportNewVehicles=true,
+
+-- Groups listed here can access the server settings within the spawnmenu.
+carKeys.config.spawnmenuAdminGroups={
+	["superadmin"]=true
+}
+
+-- Groups listed here can pickup other players vehicles without being the owner of them.
+carKeys.config.physgunAdminGroups={
+	["superadmin"]=true,
+	["admin"]=true,
+	["operator"]=true
+}
+
+-- These are base vehicle classes that are natively supported.
+carKeys.config.supportedBaseClasses={
+	-- [LFS] Planes (https://steamcommunity.com/sharedfiles/filedetails/?id=1571918906)
+	["lunasflightschool_basescript"]={alarm=false},
+
+	-- Star Wars Vehicles: Episode 1 (https://steamcommunity.com/sharedfiles/filedetails/?id=495762961)
+	["fighter_base"]={alarm=false},
+	["speeder_base"]={alarm=false}
+
+	-- Star Wars Vehicles: Episode 2 (https://steamcommunity.com/sharedfiles/filedetails/?id=608632308)
+	-- ["example"]={alarm=false},
 
 	-- [simfphys] LUA Vehicles - Base (https://steamcommunity.com/sharedfiles/filedetails/?id=771487490)
-	["gmod_sent_vehicle_fphysics_base"] = {valid=true, alarm=true},
+	-- ["gmod_sent_vehicle_fphysics_base"]={alarm=true},
+
+	-- SCars Basic (https://steamcommunity.com/sharedfiles/filedetails/?id=104487316)
+	-- ["sent_sakarias_car_base"]={alarm=true},
+
+	-- SCars Extra (https://steamcommunity.com/sharedfiles/filedetails/?id=104492363)
+	-- ["example"]={alarm=true},
+
+	-- SCars Slim (https://steamcommunity.com/sharedfiles/filedetails/?id=104483020)
+	-- ["example"]={alarm=true},
+
+	-- WAC Aircraft (https://steamcommunity.com/sharedfiles/filedetails/?id=104990330)
+	-- ["example"]={alarm=false},
+}
+
+-- These are individual vehicle classes that are natively supported.
+carKeys.config.supportedIndividualClasses={
+	-- Half-Life 2 (Includes TDMCars, LW Cars, etc.)
+	--[[["prop_vehicle_jeep"]={alarm=true}
+	["prop_vehicle_jeep_old"]={alarm=true},
+	["prop_vehicle_airboat"]={alarm=true},
+	["prop_vehicle_prisoner_pod"]={alarm=true},]]
+
+	-- [simfphys] LUA Vehicles - Base (https://steamcommunity.com/sharedfiles/filedetails/?id=771487490)
+	--[[["gmod_sent_vehicle_fphysics_base"] = {valid=true, alarm=true},
 	["gmod_sent_vehicle_fphysics_wheel"] = {valid=false, alarm=false},
 
 	-- SCars (https://steamcommunity.com/workshop/filedetails/?id=149640069)
@@ -76,10 +124,10 @@ carKeysVehicles = {
 	["sent_sakarias_car_yamahayfz450"] = {valid=true, alarm=true},
 	["sent_sakarias_car_junker3"] = {valid=true, alarm=true},
 	["sent_sakarias_car_junker2"] = {valid=true, alarm=true},
-	["sent_sakarias_car_junker1"] = {valid=true, alarm=true},
+	["sent_sakarias_car_junker1"] = {valid=true, alarm=true},]]
 
 	-- Star Wars Vehicles: Episode 1 & 2 (https://steamcommunity.com/sharedfiles/filedetails/?id=495762961, https://steamcommunity.com/sharedfiles/filedetails/?id=608632308)
-	["att"] = {valid=true, alarm=false},
+	--[[["att"] = {valid=true, alarm=false},
 	["sith_speeder"] = {valid=true, alarm=false},
 	["droid_tri"] = {valid=true, alarm=false},
 	["geonosis"] = {valid=true, alarm=false},
@@ -135,10 +183,10 @@ carKeysVehicles = {
 	["lunasflightschool_p47d"] = {valid=true, alarm=false},
 	["lunasflightschool_rebelheli"] = {valid=true, alarm=false},
 	["lunasflightschool_spitfire"] = {valid=true, alarm=false},
-	["lunasflightschool_vulturedroid"] = {valid=true, alarm=false},
+	["lunasflightschool_vulturedroid"] = {valid=true, alarm=false},]]
 
 	-- WAC Aircraft (https://steamcommunity.com/sharedfiles/filedetails/?id=104990330)
-	["wac_aircraft_maintenance"] = {valid=false, alarm=false},
+	--[[["wac_aircraft_maintenance"] = {valid=false, alarm=false},
 	["wac_hitdetector"] = {valid=false, alarm=false},
 	["wac_pod_aimedgun"] = {valid=false, alarm=false},
 	["wac_pod_base"] = {valid=false, alarm=false},
@@ -211,10 +259,10 @@ carKeysVehicles = {
 
 	-- WAC Community 7 (https://steamcommunity.com/sharedfiles/filedetails/?id=162016658)
 	["wac_pl_dh98"] = {valid=true, alarm=false},
-	["wac_pl_f86"] = {valid=true, alarm=false},
+	["wac_pl_f86"] = {valid=true, alarm=false},]]
 
 	-- [LFS] Jedi Starfighters (https://steamcommunity.com/sharedfiles/filedetails/?id=1580175017)
-	["lunasflightschool_delta7_adi"]={valid=true,alarm=false},
+	--[[["lunasflightschool_delta7_adi"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_ahsoka"]={valid=true,alarm=false},
 	["lunasflightschool_delta7_anakin"]={valid=true,alarm=false},
 	["lunasflightschool_eta2_anakin"]={valid=true,alarm=false},
@@ -232,5 +280,5 @@ carKeysVehicles = {
 	["kingpommes_tie_defender"]={valid=true,alarm=false},
 	["kingpommes_tie_fighter"]={valid=true,alarm=false},
 	["kingpommes_tie_interceptor"]={valid=true,alarm=false},
-	["kingpommes_tie_interceptorr"]={valid=true,alarm=false},
+	["kingpommes_tie_interceptorr"]={valid=true,alarm=false},]]
 }
