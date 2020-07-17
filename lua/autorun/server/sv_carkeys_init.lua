@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see https://www.gnu.org/licenses/.
 ---------------------------------------------------------------------------]]
+--Me, NotAKidoS is signing all code changes by me with --nak to comply with the license
 
 -- Current commit of the addon.
 local currentCommit = "060f308"
@@ -33,18 +34,10 @@ resource.AddSingleFile("models/sentry/pgkey.dx80.vtx")
 resource.AddSingleFile("models/sentry/pgkey.dx90.vtx")
 resource.AddSingleFile("sound/carkeys/lock.wav")
 resource.AddSingleFile("sound/carkeys/alarm.wav")
+resource.AddSingleFile("sound/carkeys/car_alarm.wav") --nak Add new looped wav sound to queue as well. Original alarm sound is still in the addon though
 
 -- Create an SQLite (sv.db) table for saving vehicle prices.
 sql.Query("CREATE TABLE carKeysVehiclePrices (EntityClass VARCHAR PRIMARY KEY, Price INT)")
-
--- Add the alarm sound file.
-sound.Add({
-	name = "carKeysAlarmSound",
-	channel = CHAN_STATIC,
-	volume = 0.4, -- Fuck that alarm was loud.
-	level = 80,
-	sound = "carkeys/alarm.wav"
-})
 
 -- Check for updates on GitHub.
 hook.Add("Think", "carKeysVersionChecker", function()
