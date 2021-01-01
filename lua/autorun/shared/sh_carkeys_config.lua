@@ -1,6 +1,6 @@
 --[[-------------------------------------------------------------------------
 Car Keys - A SWEP that lets players lock, unlock, buy and sell vehicles.
-Copyright (C) 2017-2020 viral32111
+Copyright (C) 2017 - 2021 viral32111 (https://viral32111.com).
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
